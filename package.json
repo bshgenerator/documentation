@@ -1,0 +1,23 @@
+{
+  "name": "bsh-docs",
+  "version": "0.0.1",
+  "description": "BSH Solutions Documeation",
+  "keywords": [
+    "bsh",
+    "engine"
+  ],
+  "scripts": {
+    "dev": "next --turbopack",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Bousalih Hamza",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^16.0.0",
+    "nextra": "^4.6.0",
+    "nextra-theme-docs": "^4.6.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
