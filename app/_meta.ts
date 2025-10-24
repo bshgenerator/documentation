@@ -2,7 +2,12 @@ import type { MetaRecord } from 'nextra'
 
 export default {
   '*': {
-    type: 'page'
+    type: 'page',
+    theme: {
+      timestamp: false ,
+      pagination: true,
+      copyPage: false
+    }
   },
   'index': {
     title: 'Home',
