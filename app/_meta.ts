@@ -18,6 +18,10 @@ export default {
     }
   },
   'docs': {
-    title: 'Documentations',
+    title: 'Docs',
   },
+  'api': {
+    title: 'API',
+    href: '/docs/bsh-engine/api',
+  }
 } satisfies MetaRecord
