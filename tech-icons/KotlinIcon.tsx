@@ -1,0 +1,38 @@
+import React from 'react';
+
+interface KotlinIconProps {
+  width?: number | string;
+  height?: number | string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+const KotlinIcon: React.FC<KotlinIconProps> = ({ 
+  width = 24, 
+  height = 24, 
+  className,
+  style 
+}) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 128 128"
+      className={className}
+      style={style}
+      fill="currentColor"
+    >
+      <defs>
+    <linearGradient id="a" x1="500.003" x2="-.097" y1="579.106" y2="1079.206" gradientTransform="translate(15.534 -96.774) scale(.1939)" gradientUnits="userSpaceOnUse">
+      <stop offset=".003" stop-color="#e44857"/>
+      <stop offset=".469" stop-color="#c711e1"/>
+      <stop offset="1" stop-color="#7f52ff"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#a)" d="M112.484 112.484H15.516V15.516h96.968L64 64Zm0 0"/>
+</svg>
+    </svg>
+  );
+};
+
+export default KotlinIcon;

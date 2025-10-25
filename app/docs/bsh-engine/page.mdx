@@ -2,9 +2,10 @@
 title: Bsh Engine Docs
 ---
 
-import Image from 'next/image';
 import { Cards } from 'nextra/components';
 import { DocsIcon } from '../../../icons/DocsIcon';
+import DockerIcon from '../../../tech-icons/DockerIcon';
+import GithubIcon from '../../../tech-icons/GithubIcon';
 
 # Bsh Engine Docs
 
@@ -15,7 +16,7 @@ Bsh Engine is a powerful tool that helps you start your backend wit ease. it all
 ### Quick Links
 
 <Cards>
-    <Cards.Card icon={<Image src='/tech-icons/docker.svg' alt='Docker' width={24} height={24} />} title='Docker Image' href='https://hub.docker.com/r/bshg/engine' target='_blank' />
-    <Cards.Card icon={<Image src='/tech-icons/github.svg' alt='GitHub' width={24} height={24} />} title='GitHub Repository' href='https://github.com/bshgenerator' target='_blank' />
+    <Cards.Card icon={<DockerIcon />} title='Docker Image' href='https://hub.docker.com/r/bshg/engine' target='_blank' />
+    <Cards.Card icon={<GithubIcon />} title='GitHub Repository' href='https://github.com/bshgenerator' target='_blank' />
     <Cards.Card icon={<DocsIcon />} title='Get Start' href='/docs/bsh-engine/installation' />
 </Cards>
