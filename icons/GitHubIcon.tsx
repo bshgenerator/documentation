@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface GithubiconIconProps {
+interface GithubIconProps {
   width?: number | string;
   height?: number | string;
   className?: string;
   style?: React.CSSProperties;
 }
 
-const GithubiconIcon: React.FC<GithubiconIconProps> = ({ 
+const GithubIcon: React.FC<GithubIconProps> = ({ 
   width = 24, 
   height = 24, 
   className,
@@ -29,4 +29,4 @@ const GithubiconIcon: React.FC<GithubiconIconProps> = ({
   );
 };
 
-export default GithubiconIcon;
+export default GithubIcon;
