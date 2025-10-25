@@ -3,51 +3,58 @@ title: API
 asIndexPage: true
 ---
 
+import { Cards, Callout } from 'nextra/components';
+
 # BSH Engine API
 
-The BSH Engine API is a comprehensive RESTful API that provides backend-as-a-service functionality for building modern applications. It offers authentication, entity management, file handling, email services, caching, and more.
-
-## Base URL
-
-```
-{{baseUrl}}
-```
-
-Default: `http://localhost:7071`
-
-## Authentication
-
-Most API endpoints require authentication using Bearer tokens. Include the access token in the Authorization header:
-
-```
-Authorization: Bearer {{accessToken}}
-```
+Here you can find all you need to know about the exposed API endpoints of the BSH Engine.
 
 ## API Endpoints
 
-### Core Services
-
-- **[Authentication](/docs/bsh-engine/api/authentication)** - User authentication and authorization
-- **[Entities](/docs/bsh-engine/api/entities)** - Dynamic entity CRUD operations
-- **[User Management](/docs/bsh-engine/api/user-management)** - User profile and account management
-
-### System Management
-
-- **[Image Management](/docs/bsh-engine/api/image-management)** - File upload and image handling
-- **[Email Management](/docs/bsh-engine/api/email-management)** - Email sending and templates
-- **[Cache Management](/docs/bsh-engine/api/cache-management)** - Caching operations and monitoring
-- **[Utilities](/docs/bsh-engine/api/utilities)** - System utilities and triggers
+<Cards>
+    <Cards.Card title='Entities' href='/docs/bsh-engine/api/entities' />
+    <Cards.Card title='Authentication' href='/docs/bsh-engine/api/authentication' />
+    <Cards.Card title='User Management' href='/docs/bsh-engine/api/user-management' />
+    <Cards.Card title='Image Management' href='/docs/bsh-engine/api/image-management' />
+    <Cards.Card title='Email Management' href='/docs/bsh-engine/api/email-management' />
+</Cards>
 
 ## Response Format
 
 All API responses follow a consistent JSON format:
 
-```json
+```json {2}
 {
-  "success": true,
-  "data": {},
-  "message": "Operation completed successfully",
-  "timestamp": "2024-01-15T10:30:00Z"
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {},
+}
+```
+
+<Callout type='info'>
+  The egnine always returns a **list** of items, even if there is only one item.
+</Callout>
+
+## Pagination
+
+Pagination is supported for all endpoints that return a list of items.
+
+```json {7-13}
+{
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {},
+  "pagination": {
+    "current": 0,
+    "total": 20,
+    "pages": 2,
+    "first": true,
+    "last": false
+  }
 }
 ```
 
@@ -55,38 +62,44 @@ All API responses follow a consistent JSON format:
 
 Errors are returned with appropriate HTTP status codes and error details:
 
-```json
+```json {7,8,10}
 {
-  "success": false,
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input data",
-    "details": {}
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 400,
+  "status": "ERROR STATUS",
+  "meta": {
+    "sql": "<SQL query>",
+    "tips": {}
   },
-  "timestamp": "2024-01-15T10:30:00Z"
+  "error": "<Error message>"
 }
 ```
 
-## Rate Limiting
+the `meta.sql` is the SQL query that was executed to get the error.<br/>
+the `meta.tips` is a list of tips to help you fix the error.
 
-API requests are subject to rate limiting. Check response headers for current limits:
+## Validation Errors
 
-- `X-RateLimit-Limit`: Maximum requests per time window
-- `X-RateLimit-Remaining`: Remaining requests in current window
-- `X-RateLimit-Reset`: Time when the rate limit resets
+Validation errors are returned as an object with the field name and the error message.<br/>
+this error is offen sent when you try to insert or update data with invalid data.
 
-## Getting Started
-
-1. **Authenticate**: Use the [Authentication API](/docs/bsh-engine/api/authentication) to get access tokens
-2. **Create Entities**: Define your data models using the [Entities API](/docs/bsh-engine/api/entities)
-3. **Manage Data**: Perform CRUD operations on your entities
-4. **Handle Files**: Upload and manage files using the [Image Management API](/docs/bsh-engine/api/image-management)
-5. **Send Emails**: Use the [Email Management API](/docs/bsh-engine/api/email-management) for notifications
-
-## SDKs and Tools
-
-- **Postman Collection**: Import the provided collection for testing
-- **Environment Variables**: Use the following variables in your requests:
-  - `{{baseUrl}}`: API base URL
-  - `{{accessToken}}`: Bearer token for authentication
-  - `{{refreshToken}}`: Token for refreshing access
+```json {11-16}
+{
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 400,
+  "status": "ERROR STATUS",
+  "meta": {
+    "sql": "<SQL query>",
+    "tips": {},
+  },
+  "error": "<Error message>",
+  "validations": [
+    {
+      "field": "<Field name>",
+      "error": "<Error message>"
+    }
+  ]
+}
+```
