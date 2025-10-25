@@ -17,12 +17,12 @@ The Entities API provides comprehensive CRUD operations for dynamic entity manag
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/entities/:entityName/:entityId` | Get an entity by ID |
-| POST | `/api/entities/:entityName` | Create an entity |
-| POST | `/api/entities/:entityName/batch` | Batch create entities |
-| PUT | `/api/entities/:entityName` | Update an entity |
-| PUT | `/api/entities/:entityName/batch` | Batch update entities |
-| POST | `/api/entities/:entityName/search` | Search entities |
-| DELETE | `/api/entities/:entityName/:entityId` | Delete an entity |
-| POST | `/api/entities/:entityName/delete` | Delete entities by search |
-| POST | `/api/entities/:entityName/export?format={{format}}&name={{exportName}}` | Export entities |
+| [GET](/docs/bsh-engine/api/entities/get-entity-by-id) | `/api/entities/:entityName/:entityId` | Get an entity by ID |
+| [POST](/docs/bsh-engine/api/entities/insert-entity) | `/api/entities/:entityName` | Create an entity |
+| [POST](/docs/bsh-engine/api/entities/batch-insert-entities) | `/api/entities/:entityName/batch` | Batch create entities |
+| [PUT](/docs/bsh-engine/api/entities/update-entity) | `/api/entities/:entityName` | Update an entity |
+| [PUT](/docs/bsh-engine/api/entities/batch-update-entities) | `/api/entities/:entityName/batch` | Batch update entities |
+| [POST](/docs/bsh-engine/api/entities/search-entities) | `/api/entities/:entityName/search` | Search entities |
+| [DELETE](/docs/bsh-engine/api/entities/delete-entity) | `/api/entities/:entityName/:entityId` | Delete an entity |
+| [POST](/docs/bsh-engine/api/entities/batch-delete-entities) | `/api/entities/:entityName/delete` | Delete entities by search |
+| [POST](/docs/bsh-engine/api/entities/export-entities) | `/api/entities/:entityName/export?format={{format}}&name={{exportName}}` | Export entities |
