@@ -4,7 +4,7 @@ export default {
   '*': {
     type: 'page',
     theme: {
-      timestamp: false ,
+      timestamp: false,
       pagination: true,
       copyPage: false
     }
@@ -17,11 +17,7 @@ export default {
       typesetting: 'default',
     }
   },
-  'bsh-engine': {
-    title: 'BSH Engine',
-  },
-  'bsh-libs': {
-    title: 'Bsh Libraries',
+  'docs': {
+    title: 'Documentations',
   },
 } satisfies MetaRecord
- 
