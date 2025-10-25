@@ -1,0 +1,212 @@
+---
+title: Authentication API
+---
+
+# Authentication API
+
+The Authentication API provides endpoints for user authentication, token management, and password operations.
+
+## Base Endpoint
+
+```
+{{baseUrl}}/api/auth
+```
+
+## Endpoints
+
+### Login
+
+Authenticate a user with email and password.
+
+**Endpoint:** `POST /api/auth/login`
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "userId": "user-123",
+      "email": "user@example.com",
+      "roles": ["ROLE_USER"]
+    }
+  }
+}
+```
+
+### BSH Admin Login
+
+Authenticate BSH Admin with special credentials.
+
+**Endpoint:** `POST /api/auth/login`
+
+**Request Body:**
+```json
+{
+  "email": "{{BSH_ADMIN_EMAIL}}",
+  "password": "{{BSH_ADMIN_PASSWORD}}"
+}
+```
+
+**Environment Variables:**
+- `BSH_ADMIN_EMAIL`: `bshadmin@bshg.com`
+- `BSH_ADMIN_PASSWORD`: `password`
+
+### Refresh Token
+
+Refresh an expired access token using a refresh token.
+
+**Endpoint:** `POST /api/auth/refresh`
+
+**Request Body:**
+```json
+{
+  "refresh": "{{refreshToken}}"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
+
+### Forgot Password
+
+Request a password reset code via email.
+
+**Endpoint:** `POST /api/auth/forget-password`
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset code sent to email"
+}
+```
+
+### Reset Password
+
+Reset password using verification code.
+
+**Endpoint:** `POST /api/auth/reset-password`
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "code": "123456",
+  "newPassword": "newpassword123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset successfully"
+}
+```
+
+### Activate Account
+
+Activate a user account using verification code.
+
+**Endpoint:** `POST /api/auth/activate-account`
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "code": "502665"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Account activated successfully"
+}
+```
+
+## Authentication Flow
+
+1. **Login**: Use `/api/auth/login` to authenticate and receive tokens
+2. **Store Tokens**: Save both `accessToken` and `refreshToken`
+3. **Use Access Token**: Include in Authorization header for API requests
+4. **Refresh When Expired**: Use `/api/auth/refresh` when access token expires
+5. **Logout**: Simply discard the tokens (no explicit logout endpoint)
+
+## Token Usage
+
+Include the access token in the Authorization header:
+
+```
+Authorization: Bearer {{accessToken}}
+```
+
+## Error Responses
+
+### Invalid Credentials
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+  }
+}
+```
+
+### Token Expired
+```json
+{
+  "success": false,
+  "error": {
+    "code": "TOKEN_EXPIRED",
+    "message": "Access token has expired"
+  }
+}
+```
+
+### Account Not Activated
+```json
+{
+  "success": false,
+  "error": {
+    "code": "ACCOUNT_NOT_ACTIVATED",
+    "message": "Please activate your account first"
+  }
+}
+```
+
+## Security Notes
+
+- Access tokens have a limited lifespan (typically 15-60 minutes)
+- Refresh tokens have a longer lifespan (typically 7-30 days)
+- Always use HTTPS in production
+- Store tokens securely (not in localStorage for sensitive applications)
+- Implement proper token rotation for enhanced security

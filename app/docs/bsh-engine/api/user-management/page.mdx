@@ -1,0 +1,407 @@
+---
+title: User Management API
+---
+
+# User Management API
+
+The User Management API provides endpoints for user profile management, account operations, and user initialization.
+
+## Base Endpoint
+
+```
+{{baseUrl}}/api/user
+```
+
+## Endpoints
+
+### User Initialization
+
+Initialize a new user account with profile data.
+
+**Endpoint:** `POST /api/user/init`
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": null,
+  "roles": ["DEV_USER"],
+  "profile": {
+    "firstName": "first",
+    "lastName": "last"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "user-123",
+    "email": "user@example.com",
+    "roles": ["DEV_USER"],
+    "profile": {
+      "firstName": "first",
+      "lastName": "last"
+    },
+    "createdAt": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+### Get Current User
+
+Retrieve the current authenticated user's profile information.
+
+**Endpoint:** `GET /api/user/me`
+
+**Headers:**
+```
+Authorization: Bearer {{accessToken}}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "user-123",
+    "email": "user@example.com",
+    "roles": ["ROLE_USER"],
+    "profile": {
+      "fullName": "John Doe",
+      "phone": "+1234567890",
+      "address": "123 Main St, City, Country"
+    },
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+### Update Profile
+
+Update the current user's profile information.
+
+**Endpoint:** `PUT /api/user/profile`
+
+**Headers:**
+```
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "fullName": "John Doe",
+  "phone": "+1234567890",
+  "address": "123 Main St, City, Country"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "user-123",
+    "email": "user@example.com",
+    "profile": {
+      "fullName": "John Doe",
+      "phone": "+1234567890",
+      "address": "123 Main St, City, Country"
+    },
+    "updatedAt": "2024-01-15T10:35:00Z"
+  }
+}
+```
+
+### Update Password
+
+Change the current user's password.
+
+**Endpoint:** `PUT /api/user/password`
+
+**Headers:**
+```
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "currentPassword": "oldpassword123",
+  "newPassword": "newpassword123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password updated successfully"
+}
+```
+
+### Update Profile Picture
+
+Upload and update the user's profile picture.
+
+**Endpoint:** `POST /api/user/picture`
+
+**Headers:**
+```
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data
+```
+
+**Request Body (Form Data):**
+- `picture` (file): Image file to upload
+
+**Supported Formats:**
+- JPEG (.jpg, .jpeg)
+- PNG (.png)
+- GIF (.gif)
+- WebP (.webp)
+
+**File Size Limit:** 5MB
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "user-123",
+    "profilePicture": {
+      "fileId": "cloudinary-abc123",
+      "publicId": "users/user-123/profile",
+      "secureUrl": "https://res.cloudinary.com/bshg-storage/image/upload/v1234567890/users/user-123/profile.jpg",
+      "tags": ["profile", "user"],
+      "context": {
+        "alt": "User profile picture"
+      }
+    },
+    "updatedAt": "2024-01-15T10:40:00Z"
+  }
+}
+```
+
+## Profile Schema
+
+The user profile supports flexible schema with common fields:
+
+### Standard Profile Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `fullName` | string | User's full name | "John Doe" |
+| `firstName` | string | User's first name | "John" |
+| `lastName` | string | User's last name | "Doe" |
+| `phone` | string | Phone number | "+1234567890" |
+| `address` | string | Physical address | "123 Main St, City, Country" |
+| `bio` | string | User biography | "Software developer" |
+| `website` | string | Personal website | "https://johndoe.com" |
+| `location` | string | Current location | "New York, NY" |
+| `dateOfBirth` | string | Date of birth | "1990-01-15" |
+
+### Custom Profile Fields
+
+You can add any custom fields to the profile object:
+
+```json
+{
+  "profile": {
+    "fullName": "John Doe",
+    "phone": "+1234567890",
+    "customField1": "custom value",
+    "preferences": {
+      "theme": "dark",
+      "notifications": true
+    }
+  }
+}
+```
+
+## User Roles
+
+The system supports role-based access control:
+
+### Standard Roles
+
+| Role | Description |
+|------|-------------|
+| `ROLE_USER` | Basic user access |
+| `ROLE_ADMIN` | Administrative access |
+| `ROLE_MANAGER` | Management access |
+| `DEV_USER` | Development user access |
+
+### Role Assignment
+
+Roles are assigned during user initialization or can be updated through the BshUsers entity:
+
+```json
+{
+  "roles": ["ROLE_USER", "ROLE_MANAGER"]
+}
+```
+
+## Authentication Requirements
+
+All user management endpoints require authentication:
+
+```
+Authorization: Bearer {{accessToken}}
+```
+
+## File Upload Guidelines
+
+### Profile Picture Requirements
+
+- **Maximum file size:** 5MB
+- **Supported formats:** JPEG, PNG, GIF, WebP
+- **Recommended dimensions:** 400x400 pixels
+- **Aspect ratio:** Square (1:1) recommended
+
+### Upload Process
+
+1. **Prepare the file:** Ensure the image meets size and format requirements
+2. **Create form data:** Use `multipart/form-data` content type
+3. **Include authentication:** Add Bearer token to Authorization header
+4. **Upload:** Send POST request to `/api/user/picture`
+5. **Handle response:** The API returns the file metadata and URLs
+
+### Example Upload (JavaScript)
+
+```javascript
+const formData = new FormData();
+formData.append('picture', fileInput.files[0]);
+
+fetch('/api/user/picture', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`
+  },
+  body: formData
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Profile picture updated:', data);
+});
+```
+
+## Error Handling
+
+### Common Error Responses
+
+#### Unauthorized Access
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Authentication required"
+  }
+}
+```
+
+#### Invalid Password
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_PASSWORD",
+    "message": "Current password is incorrect"
+  }
+}
+```
+
+#### File Upload Error
+```json
+{
+  "success": false,
+  "error": {
+    "code": "FILE_UPLOAD_ERROR",
+    "message": "File upload failed",
+    "details": {
+      "reason": "File size exceeds 5MB limit"
+    }
+  }
+}
+```
+
+#### Validation Error
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": {
+      "field": "phone",
+      "message": "Invalid phone number format"
+    }
+  }
+}
+```
+
+## Security Considerations
+
+### Password Requirements
+
+- **Minimum length:** 8 characters
+- **Complexity:** Must contain letters and numbers
+- **Special characters:** Recommended but not required
+- **History:** Cannot reuse last 5 passwords
+
+### Profile Data Security
+
+- **Encryption:** Sensitive data is encrypted at rest
+- **Access control:** Users can only access their own profile
+- **Audit trail:** Profile changes are logged
+- **Data retention:** Profile data is retained according to privacy policy
+
+### File Upload Security
+
+- **Virus scanning:** All uploaded files are scanned
+- **Content validation:** File content is validated
+- **Access control:** Files are only accessible to the owner
+- **Storage:** Files are stored in secure cloud storage
+
+## Rate Limiting
+
+User management endpoints are subject to rate limiting:
+
+- **Profile updates:** 10 requests per minute
+- **Password changes:** 3 requests per hour
+- **File uploads:** 5 requests per minute
+
+Check response headers for current limits:
+- `X-RateLimit-Limit`
+- `X-RateLimit-Remaining`
+- `X-RateLimit-Reset`
+
+## Best Practices
+
+### Profile Management
+
+1. **Validate input:** Always validate profile data on the client side
+2. **Handle errors:** Implement proper error handling for all operations
+3. **Update UI:** Refresh the UI after successful profile updates
+4. **Confirm changes:** Ask for confirmation before destructive operations
+
+### File Uploads
+
+1. **Preview before upload:** Show image preview before uploading
+2. **Progress indication:** Display upload progress to users
+3. **Error handling:** Handle upload failures gracefully
+4. **Fallback images:** Provide default profile pictures
+
+### Security
+
+1. **Secure storage:** Never store passwords in plain text
+2. **Token management:** Implement proper token refresh logic
+3. **Input sanitization:** Sanitize all user inputs
+4. **HTTPS only:** Always use HTTPS in production

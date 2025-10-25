@@ -3,11 +3,90 @@ title: API
 asIndexPage: true
 ---
 
-# API
+# BSH Engine API
 
-The Bsh Engine API is a RESTful API that allows you to interact with the Bsh Engine.
+The BSH Engine API is a comprehensive RESTful API that provides backend-as-a-service functionality for building modern applications. It offers authentication, entity management, file handling, email services, caching, and more.
 
-## Endpoints
+## Base URL
 
-- [Entities](https://api.bsh-engine.com/entities)
-- [Authentication](https://api.bsh-engine.com/authentication)
+```
+{{baseUrl}}
+```
+
+Default: `http://localhost:7071`
+
+## Authentication
+
+Most API endpoints require authentication using Bearer tokens. Include the access token in the Authorization header:
+
+```
+Authorization: Bearer {{accessToken}}
+```
+
+## API Endpoints
+
+### Core Services
+
+- **[Authentication](/docs/bsh-engine/api/authentication)** - User authentication and authorization
+- **[Entities](/docs/bsh-engine/api/entities)** - Dynamic entity CRUD operations
+- **[User Management](/docs/bsh-engine/api/user-management)** - User profile and account management
+
+### System Management
+
+- **[Image Management](/docs/bsh-engine/api/image-management)** - File upload and image handling
+- **[Email Management](/docs/bsh-engine/api/email-management)** - Email sending and templates
+- **[Cache Management](/docs/bsh-engine/api/cache-management)** - Caching operations and monitoring
+- **[Utilities](/docs/bsh-engine/api/utilities)** - System utilities and triggers
+
+## Response Format
+
+All API responses follow a consistent JSON format:
+
+```json
+{
+  "success": true,
+  "data": {},
+  "message": "Operation completed successfully",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+## Error Handling
+
+Errors are returned with appropriate HTTP status codes and error details:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": {}
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+## Rate Limiting
+
+API requests are subject to rate limiting. Check response headers for current limits:
+
+- `X-RateLimit-Limit`: Maximum requests per time window
+- `X-RateLimit-Remaining`: Remaining requests in current window
+- `X-RateLimit-Reset`: Time when the rate limit resets
+
+## Getting Started
+
+1. **Authenticate**: Use the [Authentication API](/docs/bsh-engine/api/authentication) to get access tokens
+2. **Create Entities**: Define your data models using the [Entities API](/docs/bsh-engine/api/entities)
+3. **Manage Data**: Perform CRUD operations on your entities
+4. **Handle Files**: Upload and manage files using the [Image Management API](/docs/bsh-engine/api/image-management)
+5. **Send Emails**: Use the [Email Management API](/docs/bsh-engine/api/email-management) for notifications
+
+## SDKs and Tools
+
+- **Postman Collection**: Import the provided collection for testing
+- **Environment Variables**: Use the following variables in your requests:
+  - `{{baseUrl}}`: API base URL
+  - `{{accessToken}}`: Bearer token for authentication
+  - `{{refreshToken}}`: Token for refreshing access

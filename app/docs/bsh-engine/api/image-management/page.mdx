@@ -1,0 +1,479 @@
+---
+title: Image Management API
+---
+
+# Image Management API
+
+The Image Management API provides endpoints for uploading, managing, and organizing image files with cloud storage integration.
+
+## Base Endpoint
+
+```
+{{baseUrl}}/api/images
+```
+
+## Endpoints
+
+### Upload Image
+
+Upload an image file to cloud storage with optional metadata.
+
+**Endpoint:** `POST /api/images/upload`
+
+**Headers:**
+```
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data
+```
+
+**Request Body (Form Data):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | file | Yes | Image file to upload |
+| `namespace` | string | No | Optional namespace for organizing images |
+| `assetId` | string | No | Optional asset ID for the image |
+| `options` | string | No | JSON string with additional options |
+
+**Options JSON Structure:**
+```json
+{
+  "tags": ["product", "main"],
+  "context": {
+    "alt": "Product image",
+    "category": "electronics"
+  }
+}
+```
+
+**Example Request:**
+```javascript
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+formData.append('namespace', 'products');
+formData.append('assetId', 'product-123');
+formData.append('options', JSON.stringify({
+  tags: ['product', 'main'],
+  context: {
+    alt: 'Product image',
+    category: 'electronics'
+  }
+}));
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "fileId": "cloudinary-abc123",
+    "publicId": "products/product-123",
+    "secureUrl": "https://res.cloudinary.com/bshg-storage/image/upload/v1234567890/products/product-123.jpg",
+    "originalUrl": "https://res.cloudinary.com/bshg-storage/image/upload/products/product-123.jpg",
+    "tags": ["product", "main"],
+    "context": {
+      "alt": "Product image",
+      "category": "electronics"
+    },
+    "metadata": {
+      "format": "jpg",
+      "width": 1920,
+      "height": 1080,
+      "size": 245760,
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  }
+}
+```
+
+## Supported File Formats
+
+### Image Formats
+
+| Format | Extensions | Max Size | Notes |
+|--------|------------|----------|-------|
+| JPEG | .jpg, .jpeg | 10MB | Most common format |
+| PNG | .png | 10MB | Supports transparency |
+| GIF | .gif | 10MB | Animated GIFs supported |
+| WebP | .webp | 10MB | Modern format, good compression |
+| SVG | .svg | 1MB | Vector graphics |
+| BMP | .bmp | 10MB | Bitmap format |
+| TIFF | .tiff, .tif | 10MB | High quality format |
+
+### File Size Limits
+
+- **Maximum file size:** 10MB per image
+- **Recommended size:** Under 2MB for web optimization
+- **Batch uploads:** Up to 10 files per request
+
+## Image Processing
+
+### Automatic Optimizations
+
+The API automatically applies the following optimizations:
+
+1. **Format conversion:** Convert to optimal format for web delivery
+2. **Compression:** Apply lossless compression where possible
+3. **Resizing:** Generate multiple sizes for responsive images
+4. **Quality optimization:** Balance file size and image quality
+
+### Generated Variants
+
+For each uploaded image, the system generates multiple variants:
+
+| Variant | Dimensions | Use Case |
+|---------|------------|----------|
+| `original` | Original size | Full resolution |
+| `large` | 1920x1080 | Desktop displays |
+| `medium` | 800x600 | Tablets |
+| `small` | 400x300 | Mobile devices |
+| `thumbnail` | 150x150 | Thumbnails |
+
+### URL Structure
+
+Generated URLs follow this pattern:
+```
+https://res.cloudinary.com/bshg-storage/image/upload/v{version}/{publicId}.{format}
+```
+
+**Example URLs:**
+```
+Original: https://res.cloudinary.com/bshg-storage/image/upload/v1234567890/products/product-123.jpg
+Large:    https://res.cloudinary.com/bshg-storage/image/upload/w_1920,h_1080,c_fit/v1234567890/products/product-123.jpg
+Medium:   https://res.cloudinary.com/bshg-storage/image/upload/w_800,h_600,c_fit/v1234567890/products/product-123.jpg
+Small:    https://res.cloudinary.com/bshg-storage/image/upload/w_400,h_300,c_fit/v1234567890/products/product-123.jpg
+Thumb:    https://res.cloudinary.com/bshg-storage/image/upload/w_150,h_150,c_fit/v1234567890/products/product-123.jpg
+```
+
+## Organization and Metadata
+
+### Namespaces
+
+Use namespaces to organize images by category or purpose:
+
+```javascript
+// Product images
+formData.append('namespace', 'products');
+
+// User avatars
+formData.append('namespace', 'avatars');
+
+// Blog posts
+formData.append('namespace', 'blog');
+
+// Documents
+formData.append('namespace', 'documents');
+```
+
+### Asset IDs
+
+Asset IDs help link images to specific entities:
+
+```javascript
+// Link to a specific product
+formData.append('assetId', 'product-123');
+
+// Link to a user
+formData.append('assetId', 'user-456');
+
+// Link to a blog post
+formData.append('assetId', 'post-789');
+```
+
+### Tags
+
+Tags provide flexible categorization:
+
+```javascript
+const options = {
+  tags: ['product', 'electronics', 'featured', 'sale']
+};
+formData.append('options', JSON.stringify(options));
+```
+
+### Context Metadata
+
+Context provides additional structured metadata:
+
+```javascript
+const options = {
+  context: {
+    alt: 'Product image',
+    category: 'electronics',
+    brand: 'Apple',
+    model: 'iPhone 15',
+    color: 'Space Black'
+  }
+};
+formData.append('options', JSON.stringify(options));
+```
+
+## File Management
+
+### Retrieving File Information
+
+Use the BshFiles entity to retrieve file metadata:
+
+```javascript
+// Search for files by tags
+const searchRequest = {
+  fields: ['fileId', 'publicId', 'secureUrl', 'tags', 'context'],
+  query: [
+    {
+      field: 'tags',
+      operator: 'contains',
+      value: 'product',
+      type: 'array'
+    }
+  ]
+};
+
+fetch('/api/entities/BshFiles/search', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(searchRequest)
+});
+```
+
+### Updating File Metadata
+
+Update file tags and context:
+
+```javascript
+const updateRequest = {
+  persistenceId: 1,
+  fileId: 'cloudinary-abc123',
+  tags: ['product', 'updated', 'featured'],
+  context: {
+    alt: 'Updated product image',
+    category: 'electronics',
+    updated: true
+  }
+};
+
+fetch('/api/entities/BshFiles', {
+  method: 'PUT',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(updateRequest)
+});
+```
+
+### Deleting Files
+
+Delete file metadata (actual file deletion requires cloud storage access):
+
+```javascript
+fetch('/api/entities/BshFiles/cloudinary-abc123', {
+  method: 'DELETE',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`
+  }
+});
+```
+
+## Error Handling
+
+### Common Error Responses
+
+#### File Too Large
+```json
+{
+  "success": false,
+  "error": {
+    "code": "FILE_TOO_LARGE",
+    "message": "File size exceeds 10MB limit",
+    "details": {
+      "maxSize": "10MB",
+      "actualSize": "15MB"
+    }
+  }
+}
+```
+
+#### Unsupported Format
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNSUPPORTED_FORMAT",
+    "message": "File format not supported",
+    "details": {
+      "supportedFormats": ["jpg", "png", "gif", "webp", "svg", "bmp", "tiff"]
+    }
+  }
+}
+```
+
+#### Upload Failed
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UPLOAD_FAILED",
+    "message": "File upload failed",
+    "details": {
+      "reason": "Network timeout"
+    }
+  }
+}
+```
+
+#### Invalid Options
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_OPTIONS",
+    "message": "Invalid options JSON",
+    "details": {
+      "field": "options",
+      "message": "JSON parse error"
+    }
+  }
+}
+```
+
+## Security and Access Control
+
+### Authentication
+
+All image upload endpoints require authentication:
+
+```
+Authorization: Bearer {{accessToken}}
+```
+
+### Access Control
+
+- **Upload permissions:** Users can upload images to their own namespaces
+- **View permissions:** Images are accessible based on entity permissions
+- **Delete permissions:** Only file owners can delete their images
+
+### Content Security
+
+- **Virus scanning:** All uploaded files are scanned for malware
+- **Content validation:** File content is validated against expected format
+- **Size limits:** Enforced file size limits prevent abuse
+- **Rate limiting:** Upload rate limits prevent spam
+
+## Best Practices
+
+### File Preparation
+
+1. **Optimize before upload:** Compress images to reduce file size
+2. **Use appropriate formats:** JPEG for photos, PNG for graphics with transparency
+3. **Set proper dimensions:** Upload at the resolution you need
+4. **Add meaningful metadata:** Include descriptive tags and context
+
+### Upload Implementation
+
+1. **Progress indication:** Show upload progress to users
+2. **Error handling:** Handle upload failures gracefully
+3. **Validation:** Validate files before upload
+4. **Batch uploads:** Use batch uploads for multiple files
+
+### URL Management
+
+1. **Use secure URLs:** Always use HTTPS URLs in production
+2. **Cache busting:** Use versioned URLs for cache invalidation
+3. **Responsive images:** Use appropriate image sizes for different devices
+4. **Lazy loading:** Implement lazy loading for better performance
+
+### Example Implementation
+
+```javascript
+class ImageUploader {
+  constructor(apiBaseUrl, accessToken) {
+    this.apiBaseUrl = apiBaseUrl;
+    this.accessToken = accessToken;
+  }
+
+  async uploadImage(file, options = {}) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    if (options.namespace) {
+      formData.append('namespace', options.namespace);
+    }
+    
+    if (options.assetId) {
+      formData.append('assetId', options.assetId);
+    }
+    
+    if (options.tags || options.context) {
+      formData.append('options', JSON.stringify({
+        tags: options.tags || [],
+        context: options.context || {}
+      }));
+    }
+
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/api/images/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`
+        },
+        body: formData
+      });
+
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error.message);
+      }
+
+      return result.data;
+    } catch (error) {
+      console.error('Upload failed:', error);
+      throw error;
+    }
+  }
+
+  async uploadMultiple(files, options = {}) {
+    const uploads = files.map(file => this.uploadImage(file, options));
+    return Promise.all(uploads);
+  }
+}
+
+// Usage
+const uploader = new ImageUploader('http://localhost:7071', accessToken);
+
+// Single file upload
+const file = document.getElementById('fileInput').files[0];
+const result = await uploader.uploadImage(file, {
+  namespace: 'products',
+  assetId: 'product-123',
+  tags: ['product', 'featured'],
+  context: {
+    alt: 'Product image',
+    category: 'electronics'
+  }
+});
+
+// Multiple file upload
+const files = document.getElementById('fileInput').files;
+const results = await uploader.uploadMultiple(files, {
+  namespace: 'gallery',
+  tags: ['gallery', 'photos']
+});
+```
+
+## Rate Limiting
+
+Image upload endpoints are subject to rate limiting:
+
+- **Single uploads:** 10 requests per minute
+- **Batch uploads:** 5 requests per minute
+- **File size limit:** 10MB per file
+- **Total upload limit:** 100MB per hour
+
+Check response headers for current limits:
+- `X-RateLimit-Limit`
+- `X-RateLimit-Remaining`
+- `X-RateLimit-Reset`
