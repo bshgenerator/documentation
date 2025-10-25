@@ -1,0 +1,34 @@
+---
+title: Login
+---
+
+# Login
+
+Authenticate a user with email and password.
+
+```bash
+POST /api/auth/login
+```
+
+## Request Body
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    }
+  ]
+  ...
+}
+```

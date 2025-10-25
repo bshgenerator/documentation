@@ -1,5 +1,6 @@
 ---
 title: Authentication API
+asIndexPage: true
 ---
 
 # Authentication API
@@ -8,149 +9,19 @@ The Authentication API provides endpoints for user authentication, token managem
 
 ## Base Endpoint
 
-```
+```bash
 {{baseUrl}}/api/auth
 ```
 
 ## Endpoints
 
-### Login
-
-Authenticate a user with email and password.
-
-**Endpoint:** `POST /api/auth/login`
-
-**Request Body:**
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "userId": "user-123",
-      "email": "user@example.com",
-      "roles": ["ROLE_USER"]
-    }
-  }
-}
-```
-
-### BSH Admin Login
-
-Authenticate BSH Admin with special credentials.
-
-**Endpoint:** `POST /api/auth/login`
-
-**Request Body:**
-```json
-{
-  "email": "{{BSH_ADMIN_EMAIL}}",
-  "password": "{{BSH_ADMIN_PASSWORD}}"
-}
-```
-
-**Environment Variables:**
-- `BSH_ADMIN_EMAIL`: `bshadmin@bshg.com`
-- `BSH_ADMIN_PASSWORD`: `password`
-
-### Refresh Token
-
-Refresh an expired access token using a refresh token.
-
-**Endpoint:** `POST /api/auth/refresh`
-
-**Request Body:**
-```json
-{
-  "refresh": "{{refreshToken}}"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-  }
-}
-```
-
-### Forgot Password
-
-Request a password reset code via email.
-
-**Endpoint:** `POST /api/auth/forget-password`
-
-**Request Body:**
-```json
-{
-  "email": "user@example.com"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Password reset code sent to email"
-}
-```
-
-### Reset Password
-
-Reset password using verification code.
-
-**Endpoint:** `POST /api/auth/reset-password`
-
-**Request Body:**
-```json
-{
-  "email": "user@example.com",
-  "code": "123456",
-  "newPassword": "newpassword123"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Password reset successfully"
-}
-```
-
-### Activate Account
-
-Activate a user account using verification code.
-
-**Endpoint:** `POST /api/auth/activate-account`
-
-**Request Body:**
-```json
-{
-  "email": "user@example.com",
-  "code": "502665"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Account activated successfully"
-}
-```
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/login` | Authenticate user with email and password |
+| POST | `/api/auth/refresh` | Refresh expired access token |
+| POST | `/api/auth/forget-password` | Request password reset code via email |
+| POST | `/api/auth/reset-password` | Reset password using verification code |
+| POST | `/api/auth/activate-account` | Activate user account using verification code |
 
 ## Authentication Flow
 

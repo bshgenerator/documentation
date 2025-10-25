@@ -1,0 +1,21 @@
+---
+title: Reset Password
+---
+
+# Reset Password
+
+Reset password using verification code.
+
+```bash
+POST /api/auth/reset-password
+```
+
+## Request Body
+
+```json
+{
+  "email": "user@example.com",
+  "code": "123456",
+  "newPassword": "newpassword123"
+}
+```
