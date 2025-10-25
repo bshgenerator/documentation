@@ -64,24 +64,3 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
-
-// Convenience components for common variants
-export const SoonBadge: React.FC<Omit<BadgeProps, 'variant'>> = (props) => (
-  <Badge variant="soon" label="Soon" {...props} />
-);
-
-export const NewBadge: React.FC<Omit<BadgeProps, 'variant'>> = (props) => (
-  <Badge variant="new" label="New" {...props} />
-);
-
-export const BetaBadge: React.FC<Omit<BadgeProps, 'variant'>> = (props) => (
-  <Badge variant="beta" label="Beta" {...props} />
-);
-
-export const DeprecatedBadge: React.FC<Omit<BadgeProps, 'variant'>> = (props) => (
-  <Badge variant="deprecated" label="Deprecated" {...props} />
-);
-
-export const ExperimentalBadge: React.FC<Omit<BadgeProps, 'variant'>> = (props) => (
-  <Badge variant="experimental" label="Experimental" {...props} />
-);
