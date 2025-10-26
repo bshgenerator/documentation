@@ -1,0 +1,42 @@
+---
+title: Persistence ID
+---
+
+import { Callout } from 'nextra/components';
+
+# Persistence ID
+
+A **Persistence ID** is a unique and stable identifier assigned to each entity in the system. It serves as a consistent reference that allows you to retrieve, update, or interact with a specific entity—independent of its internal structure or database key configuration.
+
+By abstracting away underlying database keys, the `persistenceId` ensures entities can be referenced across different parts of the application and through APIs.
+
+## Single Primary Key
+
+For entities with a **single primary key**, the `persistenceId` is identical to that key’s value.
+
+**Example:**  
+If an entity’s primary key is `id = 42`, then: `persistenceId = "42"`
+
+## Multiple Primary Keys
+
+For entities with **composite (multiple) primary keys**, the `persistenceId` is a [Base64](https://www.base64decode.org/)–encoded JSON string representing the key–value pairs.
+
+**Example:**
+
+- **Original JSON:**
+  ```json
+  {"pk1": "value1", "pk2": "value2"}
+  ```
+
+- **Base64 encoded:**
+  ```
+  eyJwazEiOiAidmFsdWUxIiwgInBrMiI6ICJ2YWx1ZTIifQ==
+  ```
+
+<Callout type="info">
+  For most entities, the `persistenceId` is the same as the primary key value.
+</Callout>
+
+<Callout type="info">
+  For entities with composite keys, always use the Base64-encoded JSON format described above.
+</Callout>

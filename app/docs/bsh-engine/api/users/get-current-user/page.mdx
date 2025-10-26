@@ -1,0 +1,51 @@
+---
+title: Get Current User
+---
+
+import { Callout } from 'nextra/components';
+
+# Get Current User
+
+Retrieve the current authenticated user's profile information.
+
+```bash
+GET /api/user/me
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "userId": "user-123",
+      "email": "user@example.com",
+      "roles": ["ROLE_USER"],
+      "profile": {
+        "fullName": "John Doe",
+        "phone": "+1234567890",
+        "address": "123 Main St, City, Country"
+      },
+      "CreatedAt": {
+        "$date": 1719859200000
+      },
+      "LastUpdatedAt": {
+        "$date": 1719859200000
+      }
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+
+<Callout type='default'>
+  This endpoint requires authentication. The response includes the user's profile data and metadata.
+</Callout>
+
+<Callout type='info'>
+  Bsh Engine uses a specific format for the dates. The date is presented as a object with a `$date` the date value.<br/>
+  For more information, you can check the [Bsh Dates](/docs/bsh-engine/bsh-dates) page.
+</Callout>

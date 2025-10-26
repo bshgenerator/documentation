@@ -1,0 +1,59 @@
+---
+title: Update Picture
+---
+
+import { Callout } from 'nextra/components';
+
+# Update Profile Picture
+
+Easily upload or update the profile picture. The uploaded image will be stored within the `profile.picture` field of your user account.
+
+```bash
+POST /api/user/picture
+Content-Type: multipart/form-data
+```
+
+<Callout type='error'>
+  To make this endpoint work, you need to [configure the file storage](/docs/bsh-engine/files/configurations) first.
+</Callout>
+
+## Request Body
+
+Upload the image using a `multipart/form-data` request with the following form field:
+
+| Field    | Type | Required | Description              |
+|----------|------|----------|--------------------------|
+| picture  | file | yes      | The image file to upload |
+
+> The API accepts common image formats (such as JPEG and PNG).
+
+## Example Response
+
+```json
+{
+  "data": [
+    {
+      "userId": "user-123",
+      "profile": {
+        "picture": "<picture-url>"
+      }
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+
+<Callout type='default'>
+  For optimal quality and appearance, use a 400x400 pixel image with a square aspect ratio.
+</Callout>
+
+<Callout type='warning'>
+  Uploads are authenticated. Only the current user can update their own picture.
+</Callout>
+
+<Callout type='info'>
+  You can view and manage your uploaded images at the [Files](/docs/bsh-engine/files/loaded-files) page.
+</Callout>

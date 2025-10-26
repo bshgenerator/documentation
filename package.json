@@ -7,7 +7,7 @@
     "engine"
   ],
   "scripts": {
-    "dev": "next --turbopack",
+    "dev": "next --turbopack --port 7201",
     "build": "next build",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "start": "next start"

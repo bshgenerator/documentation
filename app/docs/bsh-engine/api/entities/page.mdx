@@ -1,0 +1,41 @@
+---
+title: Entities API
+asIndexPage: true
+---
+
+# Entities API
+
+The Entities API provides comprehensive CRUD operations for dynamic entity management. It provides full CRUD operations for all entities, and `search`, `filtering`, and `export` capabilities.
+
+## Base Endpoint
+
+```bash
+/api/entities/{entityName}
+```
+
+<Cards>
+    <Cards.Card 
+      icon={<PostmanIcon />}
+      title='BSH Engine Collection'
+      href='https://www.postman.com/altimetry-participant-52635096/bsh-engine/folder/5fnoz46/entity-management'
+      target='_blank' />
+</Cards>
+
+## Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| [GET](/docs/bsh-engine/api/entities/get-entity-by-id) | `/api/entities/:entityName/:entityId` | Get an entity by ID |
+| [POST](/docs/bsh-engine/api/entities/insert-entity) | `/api/entities/:entityName` | Create an entity |
+| [POST](/docs/bsh-engine/api/entities/batch-insert-entities) | `/api/entities/:entityName/batch` | Batch create entities |
+| [PUT](/docs/bsh-engine/api/entities/update-entity) | `/api/entities/:entityName` | Update an entity |
+| [PUT](/docs/bsh-engine/api/entities/batch-update-entities) | `/api/entities/:entityName/batch` | Batch update entities |
+| [POST](/docs/bsh-engine/api/entities/search-entities) | `/api/entities/:entityName/search` | Search entities |
+| [DELETE](/docs/bsh-engine/api/entities/delete-entity) | `/api/entities/:entityName/:entityId` | Delete an entity |
+| [POST](/docs/bsh-engine/api/entities/batch-delete-entities) | `/api/entities/:entityName/delete` | Delete entities by search |
+| [POST](/docs/bsh-engine/api/entities/export-entities) | `/api/entities/:entityName/export?format={{format}}&name={{exportName}}` | Export entities |
+| [POST](/docs/bsh-engine/api/entities/import-entities) | `/api/entities/:entityName/import?format={{format}}` | Import entities |
+
+## Security
+
+All Entities API endpoints are secured by the [authentication](/docs/bsh-engine/api/authentication) system. In addition, each entity operation is governed by specific [entity permissions](/docs/bsh-engine/modeling/entities#entity-permissions), ensuring users can only perform actions for which they have explicit authorization. Unauthorized requests will be denied accordingly.

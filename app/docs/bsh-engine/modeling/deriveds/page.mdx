@@ -7,11 +7,19 @@ import { Callout } from 'nextra/components';
 # Derived Entities
 
 <Callout>
-    **Derived Entities** are a planned feature and are **not yet implemented** in the Bsh Engine.
+  **Derived Entities** are a planned feature and are **not yet implemented** in the Bsh Engine.
 </Callout>
 
-**Derived Entities** will allow you to define entities whose data is derived from other entities, rather than being directly accessed in a database table or view.
+**Derived Entities** will enable you to define entities whose data is generated, combined, or calculated from other entities; rather than being directly retrieved from a single database table or view.
 
-They are intended to act as a dynamic layer—behaving like regular entities within your application, but behind the scenes, combining or transforming data from existing entities according to your configuration. Unlike database views, virtual entities will exist solely within the Bsh Engine, offering a flexible way to create custom, computed, or aggregated data models without changing your actual database schema.
+These entities provide a dynamic and flexible abstraction in your application. While they behave and are queried like regular entities, derived entities are backed by logic that can aggregate, transform, or join data from multiple sources as needed. This means you can represent business logic, computations, or custom views of your data layer without altering your database schema.
 
-Stay tuned for updates as this feature is developed!
+### Key Benefits
+
+- **Custom Data Models:**    Easily represent aggregated or computed data as standalone entities.
+- **Business Logic:**        Keep derivations outside of your database schema.
+- **Seamless Migration:**    Move between environments without making any direct changes to your database.
+- **Flexibility:**           Change data derivation or presentation without the need to touch your database.
+- **Reusability:**           Use derived entities for querying, validation, and output, just like core entities.
+
+> More documentation, usage patterns, and configuration examples will be provided as development progresses. Stay tuned for updates!

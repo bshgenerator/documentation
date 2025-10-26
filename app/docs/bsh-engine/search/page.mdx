@@ -1,0 +1,354 @@
+---
+title: BSH Search
+---
+
+import { Callout, Tabs } from 'nextra/components';
+
+# BSH Search
+
+The **BSH Search** object is a powerful query system that allows you to search, filter, group, sort, and paginate data across entities in the BSH Engine. It provides a flexible and type-safe way to construct complex queries.
+
+<Tabs items={['Documentation', 'TypeScript', 'Examples', 'Best Practices']}>
+    <Tabs.Tab title="Documentation">
+    ## Properties
+
+    ### `entity` [#entity]
+    Specifies the target entity to search within.
+
+    ```json
+    {
+        "entity": "users"
+    }
+    ```
+
+    ### `fields` [#fields]
+    Defines which fields to retrieve from the search results.
+
+    ```json
+    {
+        "fields": ["id", "name", "email"]
+    }
+    ```
+
+    ```json
+    {
+        "fields": "name"
+    }
+    ```
+
+    ### `query` [#query]
+    The main filtering mechanism using query leaves to build complex conditions.
+
+    ```json
+    {
+        "query": [
+            {
+                "field": "age",
+                "operator": "gte",
+                "value": 18
+            },
+            {
+                "operator": "or",
+                "query": [
+                    {
+                        "field": "status",
+                        "operator": "eq",
+                        "value": "active"
+                    },
+                    {
+                        "field": "salary",
+                        "operator": "gt",
+                        "value": 50000
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+
+    <Tabs items={['Fields', 'Comparison Operators', 'Logical Operators']}>
+        <Tabs.Tab title="Fields">
+            | Property | Description | Required |
+            |----------|-------------|----------|
+            | `operator` | The comparison or logical operator to use | yes |
+            | `field` | The field to apply the condition to | yes |
+            | `value` | The value to compare against | yes |
+            | `type` | Optional type specification for the field | no |
+            | `query` | Nested query leaves for complex conditions | if used logical operator |
+        </Tabs.Tab>
+        <Tabs.Tab title="Comparison Operators">
+            | Operator | Description |
+            |----------|-------------|
+            | `eq` | Equal to |
+            | `ne` | Not equal to |
+            | `gt` | Greater than |
+            | `gte` | Greater than or equal to |
+            | `lt` | Less than |
+            | `lte` | Less than or equal to |
+            | `like` | Pattern matching (case-sensitive) |
+            | `ilike` | Pattern matching (case-insensitive) |
+            | `contains` | Contains substring (case-sensitive) |
+            | `icontains` | Contains substring (case-insensitive) |
+            | `starts` | Starts with (case-sensitive) |
+            | `istarts` | Starts with (case-insensitive) |
+            | `in` | Value is in the provided array |
+            | `nin` | Value is not in the provided array |
+            | `between` | Value is between two values (inclusive) |
+            | `isnull` | Field is null |
+            | `notnull` | Field is not null |
+        </Tabs.Tab>
+        <Tabs.Tab title="Logical Operators">
+            | Operator | Description |
+            |----------|-------------|
+            | `and` | Logical AND operation |
+            | `or` | Logical OR operation |
+
+            <Callout type="info">
+                the logical operators are used to combine multiple queries using logical `AND` or `OR` operations.<br/>
+                By default, `AND` is used as the logical operator.
+            </Callout>
+        </Tabs.Tab>
+    </Tabs>
+
+    ### `groupBy` [#groupBy]
+    Groups results by specified fields and applies aggregate functions.
+
+    ```json
+    {
+        "groupBy": {
+            "fields": ["department"],
+            "aggregate": [
+                {
+                    "function": "COUNT",
+                    "field": "id",
+                    "alias": "total_employees"
+                },
+                {
+                    "function": "AVG",
+                    "field": "salary",
+                    "alias": "avg_salary"
+                }
+            ]
+        }
+    }
+    ```
+
+    <Tabs items={['Fields', 'Aggregate Functions']}>
+        <Tabs.Tab title="Fields">
+            | Property | Description | Required |
+            |----------|-------------|----------|
+            | `fields` | The fields to group by | no |
+            | `aggregate` | The aggregate functions to apply | no |
+            | `aggregate.function` | The aggregate function to apply | yes |
+            | `aggregate.field` | The field to aggregate | yes |
+            | `aggregate.alias` | The alias for the aggregated result | no |
+        </Tabs.Tab>
+        <Tabs.Tab title="Aggregate Functions">
+            | Function | Description |
+            |----------|-------------|
+            | `COUNT` | Count the number of rows |
+            | `SUM` | Sum the values of the field |
+            | `AVG` | Find the average value of the field |
+            | `MIN` | Find the minimum value of the field |
+            | `MAX` | Find the maximum value of the field |
+        </Tabs.Tab>
+    </Tabs>
+
+
+    ### `sort` [#sort]
+    Defines the sorting order for the results.
+
+    ```json
+    {
+        "sort": [
+            {
+                "field": "name",
+                "direction": 1
+            },
+            {
+                "field": "created_at",
+                "direction": -1
+            }
+        ]
+    }
+    ```
+
+    | Property | Description | Required |
+    |----------|-------------|----------|
+    | `field` | The field to sort by | yes |
+    | `direction` | The direction to sort by (`1` for ascending, `-1` for descending) | yes |
+
+    ### `pagination` [#pagination]
+    Controls the pagination of results.
+
+    ```json
+    {
+        "pagination": {
+            "page": 0,
+            "size": 20
+        }
+    }
+    ```
+
+    | Property | Description | Required | Default |
+    |----------|-------------|----------|---------|
+    | `page` | The page number (0-based) | no | 0 |
+    | `size` | The number of items per page | no | 10 |
+    </Tabs.Tab>
+    <Tabs.Tab title="TypeScript">
+        ## TypeScript Definitions
+
+        Here are the complete TypeScript definitions for the BSH Search system:
+
+        ```typescript
+        type CaseInsensitive<T extends string> = T | Uppercase<T>;
+
+        export type BshSearch<T = unknown> = {
+            entity?: string
+            fields?: keyof T | string[]
+            query?: QueryLeaf<T>[]
+            groupBy?: GroupBy<T>
+            sort?: Sort<T>[]
+            pagination?: Pagination
+        }
+
+        export type LogicalOperator = CaseInsensitive<"and" | "or">;
+        export type ComparisonOperator = CaseInsensitive<
+            | "eq" | "ne"
+            | "gt" | "gte"
+            | "lt" | "lte"
+            | "like" | "ilike"
+            | "contains" | "icontains"
+            | "starts" | "istarts"
+            | "in" | "nin"
+            | "between"
+            | "isnull" | "notnull">;
+
+        export type QueryLeaf<T = unknown> = {
+            operator?: ComparisonOperator | LogicalOperator;
+            field?: string | keyof T;
+            value?: unknown;
+            type?: string;
+            query?: QueryLeaf<T>[];
+        };
+
+        export type GroupBy<T = unknown> = {
+            fields?: string[] | keyof T[]
+            aggregate?: Aggregate<T>[]
+        }
+
+        export type AggregateFunction =
+            | "COUNT"
+            | "SUM"
+            | "AVG"
+            | "MIN"
+            | "MAX"
+
+        export type Aggregate<T = unknown> = {
+            function?: AggregateFunction
+            field?: string | keyof T
+            alias?: string
+        }
+
+        export type Sort<T> = {
+            field?: string | keyof T
+            direction?: -1 | 1
+        }
+
+        export type Pagination = {
+            page?: number
+            size?: number
+        }
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab title="Examples">
+            ## Complete Example
+
+    Here's a comprehensive example that demonstrates all the features:
+
+    ```json
+    {
+        "entity": "employees",
+        "fields": ["id", "name", "email", "salary", "department"],
+        "query": [
+            {
+                "field": "age",
+                "operator": "gte",
+                "value": 25
+            },
+            {
+            "operator": "and",
+            "query": [
+                {
+                    "field": "status",
+                    "operator": "eq",
+                    "value": "active"
+                },
+                {
+                    "operator": "or",
+                    "query": [
+                        {
+                            "field": "department",
+                            "operator": "in",
+                            "value": ["engineering", "marketing"]
+                        },
+                        {
+                            "field": "salary",
+                            "operator": "gt",
+                            "value": 50000
+                        }
+                    ]
+                }
+            ]
+            }
+        ],
+        "groupBy": {
+            "fields": ["department"],
+            "aggregate": [
+                {
+                    "function": "COUNT",
+                    "alias": "employee_count"
+                },
+                {
+                    "function": "AVG",
+                    "field": "salary",
+                    "alias": "avg_salary"
+                }
+            ]
+        },
+        "sort": [
+            {
+                "field": "department",
+                "direction": 1
+            },
+            {
+                "field": "avg_salary",
+                "direction": -1
+            }
+        ],
+        "pagination": {
+            "page": 0,
+            "size": 10
+        }
+    }
+    ```
+
+    This query will:
+    1. Search the `employees` entity
+    2. Filter for employees aged 25 or older who are active
+    3. Further filter for those in engineering/marketing departments OR with salary > 50000
+    4. Group results by department
+    5. Count employees and calculate average salary per department
+    6. Sort by department name (ascending) then by average salary (descending)
+    7. Return the first 10 results
+    </Tabs.Tab>
+    <Tabs.Tab title="Best Practices">
+    ## Best Practices
+
+    2. **Specify fields** to reduce data transfer and improve performance
+    3. **Use appropriate operators** - prefer `ilike` over `like` for user-facing searches
+    4. **Structure queries logically** - use proper nesting for complex conditions
+    5. **Apply pagination** for large result sets to improve performance
+    6. **Use aggregation** for summary data rather than processing large datasets client-side
+    </Tabs.Tab>
+</Tabs>

@@ -4,10 +4,6 @@ export default {
   '*': {
     type: 'page'
   },
-  'ts-validation': {
-    title: 'Ts Validation',
-  },
-  'bsh-engine': {
-    title: 'Bsh Engine',
-  },
+  'bsh-engine': 'Bsh Engine',
+  'ts-validation': 'Ts Validation',
 } satisfies MetaRecord

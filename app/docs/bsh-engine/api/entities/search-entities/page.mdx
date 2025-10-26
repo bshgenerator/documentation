@@ -1,0 +1,59 @@
+---
+title: Search Entities
+---
+
+import { Callout } from 'nextra/components';
+
+# Search Entities
+
+with this endpoint you can search for records in the entity with filters and pagination, it uses the [BSH Search](/docs/bsh-engine/search) object as body.<br/>
+
+```bash
+POST /api/entities/:entityName/search
+```
+
+## Request Body
+
+```json
+{
+  "entity": "users",
+  "fields": ["id", "name", "email"],
+  "query": [
+    {
+      "field": "name",
+      "operator": "ilike",
+      "value": "john"
+    }
+  ]
+}
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    {
+      "id": 2,
+      "name": "John Smith",
+      "email": "john.smith@example.com"
+    }
+  ],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {},
+  "pagination": {
+    "current": 0,
+    "total": 18,
+    "pages": 2,
+    "first": true,
+    "last": false
+  }
+}
+```

@@ -1,0 +1,54 @@
+---
+title: Authentication API
+asIndexPage: true
+---
+
+# Authentication API
+
+The Authentication API provides endpoints for user authentication, token management, and password operations.
+
+## Base Endpoint
+
+```bash
+{{baseUrl}}/api/auth
+```
+
+<Cards>
+    <Cards.Card 
+      icon={<PostmanIcon />}
+      title='BSH Engine Collection'
+      href='https://www.postman.com/altimetry-participant-52635096/bsh-engine/folder/lbjr75s/authentication'
+      target='_blank' />
+</Cards>
+
+## Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/login` | Authenticate user with email and password |
+| POST | `/api/auth/refresh` | Refresh expired access token |
+| POST | `/api/auth/forget-password` | Request password reset code via email |
+| POST | `/api/auth/reset-password` | Reset password using verification code |
+| POST | `/api/auth/activate-account` | Activate user account using verification code |
+
+## Token Usage
+
+Include the access token in the Authorization header:
+
+```
+Authorization: Bearer {{accessToken}}
+```
+
+## Authentication Flow
+
+```mermaid
+flowchart TD
+    A[Login] --> B{Tokens Received?}
+    B -- Yes --> C[Store tokens]
+    C --> D[Access Protected Endpoints]
+    D --> E{Access Token Expired?}
+    E -- No --> D
+    E -- Yes --> F[Refresh Token]
+    F --> B
+    D --> G[Logout: discard tokens; no endpoint]
+```

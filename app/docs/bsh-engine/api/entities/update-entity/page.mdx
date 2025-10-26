@@ -1,0 +1,53 @@
+---
+title: Update Entity
+---
+
+import { Callout } from 'nextra/components';
+
+# Update Entity
+
+Update an existing record in the entity, this endpoint will return the updated record with the [persistenceId](/docs/bsh-engine/api/persistence-id).
+
+```bash
+PUT /api/entities/:entityName
+```
+
+## Request Body
+
+```json
+{
+  "primaryKey": "value",
+  "...": "...",
+}
+```
+
+<Callout type='error'>
+  If the table linked to the entity is not exists, the endpoint return a `404` error.
+</Callout>
+
+<Callout type='error'>
+  It is required to provide all the primary keys in the request body.<br/>
+  If you don't provide all the primary keys, the endpoint will return a `400` error.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "primaryKey": "value",
+      "...": "...",
+      "persistenceId": "value",
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {},
+}
+```
+
+<Callout type='default'>
+  Read the [Persistence ID](/docs/bsh-engine/api/persistence-id) documentation for more information about the `persistenceId`.
+</Callout>

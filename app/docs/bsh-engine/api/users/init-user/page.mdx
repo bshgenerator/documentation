@@ -1,0 +1,68 @@
+---
+title: Initialize User
+---
+
+import { Callout } from 'nextra/components';
+
+# Initialize User
+
+Initialize a new user account with profile data.<br/>
+
+<Callout type='info'>
+    This endpoint is for admins to add new users to the system.
+</Callout>
+
+```bash
+POST /api/user/init
+```
+
+## Request Body
+
+```json
+{
+  "email": "user@example.com",
+  "password": null,
+  "roles": ["DEV_USER"],
+  "profile": {
+    "firstName": "first",
+    "lastName": "last"
+  }
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The email address of the user. |
+| `password` | string | no | The password of the user. |
+| `roles` | array | yes | The roles of the user. |
+| `profile` | object | yes | The profile of the user. |
+
+<Callout type='important'>
+    The `profile` object is customizable; define any fields you want to include in a user's profile. This allows you to tailor user data storage to your application's specific requirements.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "userId": "user-123",
+      "email": "user@example.com",
+      "roles": ["DEV_USER"],
+      "profile": {
+        "firstName": "first",
+        "lastName": "last"
+      }
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  User initialization creates a new user account with the specified profile data and roles. The system will send and email to the user to notify him.
+</Callout>

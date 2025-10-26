@@ -1,0 +1,33 @@
+---
+title: Refresh Token
+---
+
+# Refresh Token
+
+Refresh an expired access token using a refresh token.
+
+```bash
+POST /api/auth/refresh
+```
+
+## Request Body
+
+```json
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    }
+  ]
+  ...
+}
+```

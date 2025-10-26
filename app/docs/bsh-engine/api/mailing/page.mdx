@@ -1,0 +1,38 @@
+---
+title: Mailing API
+asIndexPage: true
+---
+
+import { Callout } from 'nextra/components';
+
+# Mailing API
+
+The Mailing API provides comprehensive email management operations including sending emails, managing email templates, configuring SMTP settings, and tracking email delivery status.
+
+<Callout type="info">
+  This API is linked with the `BshEmails` entity for email tracking and logging.
+</Callout>
+
+## Base Endpoint
+
+```bash
+/api/mailing
+```
+
+<Cards>
+    <Cards.Card 
+      icon={<PostmanIcon />}
+      title='BSH Engine Collection'
+      href='https://www.postman.com/altimetry-participant-52635096/bsh-engine/folder/eareicu/email-management'
+      target='_blank' />
+</Cards>
+
+## Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| [POST](/docs/bsh-engine/api/mailing/send-email) | `/api/mailing/send` | Send an email using plain text, HTML, or templates |
+
+<Callout>
+  Additional endpoints for mailing are planned and will be introduced in future releases. Stay tuned for updates as development continues!
+</Callout>

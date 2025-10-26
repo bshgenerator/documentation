@@ -1,0 +1,40 @@
+---
+title: Batch Update Entities
+---
+
+import { Callout } from 'nextra/components';
+
+# Batch Update Entities
+
+Update multiple records in the entity in a single request, this endpoint will return the updated records with the [persistenceId](/docs/bsh-engine/api/persistence-id).<br/>
+
+```bash
+PUT /api/entities/:entityName/batch
+```
+
+<Callout type='important'>
+  It is required to provide all the primary keys in the request body.<br/>
+  If you don't provide all the primary keys, the endpoint will return a `400` error.
+</Callout>
+
+## Request Body
+
+```json
+[
+    { "primaryKey": "value", "...": "..." },
+]
+```
+
+## Response
+
+```json
+{
+  "data": [
+    { "primaryKey": "value", "...": "...", "persistenceId": "..." },
+  ],
+}
+```
+
+<Callout type='default'>
+  Read the [Persistence ID](/docs/bsh-engine/api/persistence-id) documentation for more information about the `persistenceId`.
+</Callout>

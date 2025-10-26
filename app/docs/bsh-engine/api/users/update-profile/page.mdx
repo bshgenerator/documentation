@@ -1,0 +1,52 @@
+---
+title: Update Profile
+---
+
+import { Callout } from 'nextra/components';
+
+# Update Profile
+
+Update the current user's profile information.
+
+```bash
+PUT /api/user/profile
+```
+
+## Request Body
+
+```json
+{
+  "fullName": "John Doe",
+  "phone": "+1234567890",
+  "address": "123 Main St, City, Country"
+}
+```
+
+<Callout type='default'>
+  Only the authenticated user can update their own profile. The profile supports flexible schema with custom fields.
+</Callout>
+
+<Callout type='important'>
+  to remove a field, you can set the value to `null`.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "userId": "user-123",
+      "profile": {
+        "fullName": "John Doe",
+        "phone": "+1234567890",
+        "address": "123 Main St, City, Country"
+      }
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```

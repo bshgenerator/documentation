@@ -1,0 +1,89 @@
+---
+title: Upload Image
+---
+
+import { Callout } from 'nextra/components';
+
+# Upload Image
+
+Upload an image file to cloud storage with optional metadata.<br/>
+
+```bash
+POST /api/images/upload
+Content-Type: multipart/form-data
+```
+
+## Request Body (Form Data)
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | file | Yes | Image file to upload |
+| `namespace` | string | No | Optional namespace for organizing images (folder name) |
+| `assetId` | string | No | Optional asset ID for the image (file name) |
+| `options` | string | No | JSON string with additional options (tags, context, etc.) |
+
+<Callout type='info'>
+  The `namespace` and `assetId` are used to organize the image in the cloud storage.
+</Callout>
+
+## Options JSON Structure
+The `options` is a JSON string with additional options (tags, context, etc.).<br/>
+
+```json
+{
+  "tags": ["product", "main"],
+  "context": {
+    "alt": "Product image",
+    "category": "electronics"
+  }
+}
+```
+
+## Example Request
+
+```javascript
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+formData.append('namespace', 'products');
+formData.append('assetId', 'product-123');
+formData.append('options', JSON.stringify({
+  tags: ['product', 'main'],
+  context: {
+    alt: 'Product image',
+    category: 'electronics'
+  }
+}));
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "fileId": "<file-id>",
+      "id": "<id-in-cloud-storage>",
+      "publicId": "<public-id-in-cloud-storage>",
+      "name": "<file-name>",
+      "mediaType": "image/png",
+      "uri": "<uri>",
+      "secureUri": "<secure-uri>",
+      "bytes": <file-size>,
+      "format": "<file-format>",
+      "folder": "<folder-name>",
+      "width": <width>,
+      "height": <height>,
+      "tags": ["<tag1>", "<tag2>"],
+      "context": {
+        "alt": "<alt-text>",
+        "category": "<category>"
+      },
+      "persistenceId": "<persistence-id>"
+    }
+  ],
+  "timestamp": 1761503610,
+  "code": 201,
+  "status": "CREATED",
+  "meta": {}
+}
+```

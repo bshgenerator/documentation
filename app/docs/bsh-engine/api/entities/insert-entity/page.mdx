@@ -1,0 +1,47 @@
+---
+title: Insert Entity
+---
+
+import { Callout } from 'nextra/components';
+
+# Insert Entity
+
+add new record to the entity, this endpoint will return the inserted record with the [persistenceId](/docs/bsh-engine/api/persistence-id).
+
+```bash
+POST /api/entities/:entityName
+```
+
+## Request Body
+
+```json
+{
+  "key": "value",
+}
+```
+
+<Callout type='important'>
+  If the table linked to the entity is not exists, the endpoint will create the table and insert the record.<br/>
+  It will use the defined primary keys in [Entity Form](/docs/bsh-engine/modeling/entities#primary-keys) and will create new table with the specified primary keys.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+        "key": "value",
+        "persistenceId": "123",
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {},
+}
+```
+
+<Callout type='default'>
+  Read the [Persistence ID](/docs/bsh-engine/api/persistence-id) documentation for more information about the `persistenceId`.
+</Callout>

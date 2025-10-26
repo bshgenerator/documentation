@@ -1,0 +1,24 @@
+---
+title: Delete Entity
+---
+
+import { Callout } from 'nextra/components';
+
+# Delete Entity
+
+Delete a record from the entity by [persistenceId](/docs/bsh-engine/api/persistence-id).
+
+```bash
+DELETE /api/entities/:entityName/:entityId
+```
+
+## Response
+
+```json
+{
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {},
+}
+```
