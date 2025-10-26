@@ -7,6 +7,4 @@ export default {
   'users': 'Users',
   'files': 'Files',
   'mailing': 'Mailing',
-  'caching': 'Caching',
-  'utilities': 'Utilities',
 } satisfies MetaRecord
