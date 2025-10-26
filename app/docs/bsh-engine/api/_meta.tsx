@@ -1,6 +1,7 @@
 import type { MetaRecord } from 'nextra';
 
 export default {
+  'persistence-id': 'Persistence ID',
   'entities': 'Entities',
   'authentication': 'Authentication',
   'user-management': 'User Management',
