@@ -10,6 +10,7 @@ export default {
   'caching': <Title title='Caching' badge='planned' />,
   'websocket': <Title title='WebSocket' badge='planned' />,
   'packaging': <Title title='Packaging' badge='planned' />,
+  'search': 'BSH Search',
   'api': 'API Endpointa',
   'changelog': 'Changelog',
 }
