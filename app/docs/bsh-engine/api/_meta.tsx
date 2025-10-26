@@ -4,9 +4,9 @@ export default {
   'persistence-id': 'Persistence ID',
   'entities': 'Entities',
   'authentication': 'Authentication',
-  'user-management': 'User Management',
-  'image-management': 'Image Management',
-  'email-management': 'Email Management',
-  'cache-management': 'Cache Management',
+  'users': 'Users',
+  'files': 'Files',
+  'mailing': 'Mailing',
+  'caching': 'Caching',
   'utilities': 'Utilities',
 } satisfies MetaRecord
