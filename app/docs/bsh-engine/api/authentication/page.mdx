@@ -10,7 +10,7 @@ The Authentication API provides endpoints for user authentication, token managem
 ## Base Endpoint
 
 ```bash
-{{baseUrl}}/api/auth
+/api/auth
 ```
 
 <Cards>
@@ -31,14 +31,6 @@ The Authentication API provides endpoints for user authentication, token managem
 | POST | `/api/auth/reset-password` | Reset password using verification code |
 | POST | `/api/auth/activate-account` | Activate user account using verification code |
 
-## Authentication Flow
-
-1. **Login**: Use `/api/auth/login` to authenticate and receive tokens
-2. **Store Tokens**: Save both `accessToken` and `refreshToken`
-3. **Use Access Token**: Include in Authorization header for API requests
-4. **Refresh When Expired**: Use `/api/auth/refresh` when access token expires
-5. **Logout**: Simply discard the tokens (no explicit logout endpoint)
-
 ## Token Usage
 
 Include the access token in the Authorization header:
@@ -47,45 +39,16 @@ Include the access token in the Authorization header:
 Authorization: Bearer {{accessToken}}
 ```
 
-## Error Responses
+## Authentication Flow
 
-### Invalid Credentials
-```json
-{
-  "success": false,
-  "error": {
-    "code": "INVALID_CREDENTIALS",
-    "message": "Invalid email or password"
-  }
-}
+```mermaid
+flowchart TD
+    A[Login] --> B{Tokens Received?}
+    B -- Yes --> C[Store tokens]
+    C --> D[Access Protected Endpoints]
+    D --> E{Access Token Expired?}
+    E -- No --> D
+    E -- Yes --> F[Refresh Token]
+    F --> B
+    D --> G[Logout: discard tokens; no endpoint]
 ```
-
-### Token Expired
-```json
-{
-  "success": false,
-  "error": {
-    "code": "TOKEN_EXPIRED",
-    "message": "Access token has expired"
-  }
-}
-```
-
-### Account Not Activated
-```json
-{
-  "success": false,
-  "error": {
-    "code": "ACCOUNT_NOT_ACTIVATED",
-    "message": "Please activate your account first"
-  }
-}
-```
-
-## Security Notes
-
-- Access tokens have a limited lifespan (typically 15-60 minutes)
-- Refresh tokens have a longer lifespan (typically 7-30 days)
-- Always use HTTPS in production
-- Store tokens securely (not in localStorage for sensitive applications)
-- Implement proper token rotation for enhanced security
