@@ -2,10 +2,62 @@
 title: Batch Delete Entities
 ---
 
+import { Callout } from 'nextra/components';
+
 # Batch Delete Entities
 
-Delete multiple entities in a single request.
+The **Batch Delete Entities** endpoint allows you to delete multiple records from a specific entity in a single API call, based on flexible search criteria. The request body uses the [BSH Search](/docs/bsh-engine/search) object to specify which records to remove.
 
 ```bash
 DELETE /api/entities/:entityName/batch
 ```
+
+## Request Body
+
+```json
+{
+  "entity": "users",
+  "query": [
+    {
+      "field": "name",
+      "operator": "ilike",
+      "value": "john"
+    }
+  ]
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | yes | The name of the entity to delete records from. |
+| `query` | array | no | An array of conditions that match the records you want to delete. Supports all BSH query operators. |
+
+<Callout type='error'>
+  If no query is provided, the endpoint will delete all records from the entity.
+</Callout>
+
+## Response
+
+A successful response returns an object indicating how many records were deleted:
+
+```json
+{
+  "data": [
+    {
+      "effected": 1
+    }
+  ],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  The <code>effected</code> property in the response indicates how many records matched the query and were deleted.
+</Callout>
+
+<Callout type='important'>
+  This endpoint only processes the <code>entity</code> and <code>query</code> properties from the [BSH Search](/docs/bsh-engine/search) object. Any other properties will be ignored.
+</Callout>
