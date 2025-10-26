@@ -2,10 +2,31 @@
 title: Export Entities
 ---
 
+import { Callout } from 'nextra/components';
+
 # Export Entities
 
-Export entities to various formats (CSV, JSON, etc.).
+Export records from the entity to various formats (CSV, JSON, etc.).
 
-```bash
-POST /api/entities/:entityName/export
+```bach
+POST /api/entities/:entityName/export?format={{format}}&name={{exportName}}
 ```
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| format | string | The format to export the records to (CSV, JSON, etc.) |
+| name | string | the name of the export file |
+
+## Supported Formats
+
+| Format | Description | extensions |
+|--------|-------------|------------|
+| CSV | Comma-separated values | `.csv` |
+| JSON | JavaScript Object Notation | `.json` |
+| Excel | Microsoft Excel | `.xlsx` |
+
+## Response
+
+the endpoint will return a file download with the exported data.
