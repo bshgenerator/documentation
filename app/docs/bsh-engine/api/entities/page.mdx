@@ -27,3 +27,7 @@ The Entities API provides comprehensive CRUD operations for dynamic entity manag
 | [POST](/docs/bsh-engine/api/entities/batch-delete-entities) | `/api/entities/:entityName/delete` | Delete entities by search |
 | [POST](/docs/bsh-engine/api/entities/export-entities) | `/api/entities/:entityName/export?format={{format}}&name={{exportName}}` | Export entities |
 | [POST](/docs/bsh-engine/api/entities/import-entities) | `/api/entities/:entityName/import?format={{format}}` | Import entities |
+
+## Security
+
+All Entities API endpoints are secured by the [authentication](/docs/bsh-engine/api/authentication) system. In addition, each entity operation is governed by specific [entity permissions](/docs/bsh-engine/modeling/entities#entity-permissions), ensuring users can only perform actions for which they have explicit authorization. Unauthorized requests will be denied accordingly.
