@@ -1,0 +1,43 @@
+---
+title: Update Password
+---
+
+import { Callout } from 'nextra/components';
+
+# Update Password
+
+Change the current user's password.
+
+```bash
+PUT /api/user/password
+```
+
+## Request Body
+
+```json
+{
+  "currentPassword": "oldpassword123",
+  "newPassword": "newpassword123"
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `currentPassword` | string | yes | The current password of the user. |
+| `newPassword` | string | yes | The new password for the user. |
+
+## Response
+
+```json
+{
+  "data": [],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  The passwords are automatically hashed before being stored in the database.
+</Callout>

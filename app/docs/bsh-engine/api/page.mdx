@@ -19,6 +19,15 @@ Here you can find all you need to know about the exposed API endpoints of the BS
     <Cards.Card title='Email Management' href='/docs/bsh-engine/api/email-management' />
 </Cards>
 
+## Authentication
+
+All protected API endpoints require authentication. You can get the access token by logging in with the [authentication](/docs/bsh-engine/api/authentication) system.
+
+```bash
+Authorization: Bearer {{accessToken}}
+```
+
+
 ## Response Format
 
 All API responses follow a consistent JSON format:
