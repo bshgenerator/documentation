@@ -2,9 +2,11 @@
 title: Reset Password
 ---
 
+import { Callout } from 'nextra/components';
+
 # Reset Password
 
-Reset password using verification code.
+The **Reset Password** endpoint allows you to reset your password using a verification code.
 
 ```bash
 POST /api/auth/reset-password
@@ -19,3 +21,25 @@ POST /api/auth/reset-password
   "newPassword": "newpassword123"
 }
 ```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The email address of the user. |
+| `code` | string | yes | The verification code sent to the email address. |
+| `newPassword` | string | yes | The new password for the user. |
+
+## Response
+
+```json
+{
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  If the endpoint success, it will reset the password for the user. then send him an email to confirm the password reset.
+</Callout>

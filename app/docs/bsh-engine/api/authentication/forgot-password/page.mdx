@@ -2,9 +2,11 @@
 title: Forgot Password
 ---
 
+import { Callout } from 'nextra/components';
+
 # Forgot Password
 
-Request a password reset code via email.
+The **Forgot Password** endpoint allows you to request a password reset code via email.
 
 ```bash
 POST /api/auth/forget-password
@@ -17,3 +19,19 @@ POST /api/auth/forget-password
   "email": "user@example.com"
 }
 ```
+
+## Response
+
+```json
+{
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  If the endpoint success, it will send a password reset code to the email address.
+</Callout>

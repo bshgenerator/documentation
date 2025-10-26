@@ -2,9 +2,11 @@
 title: Activate Account
 ---
 
+import { Callout } from 'nextra/components';
+
 # Activate Account
 
-Activate a user account using verification code.
+The **Activate Account** endpoint allows you to activate a user account using a verification code.
 
 ```bash
 POST /api/auth/activate-account
@@ -18,3 +20,24 @@ POST /api/auth/activate-account
   "code": "502665"
 }
 ```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The email address of the user. |
+| `code` | string | yes | The verification code sent to the email address. |
+
+## Response
+
+```json
+{
+  "data": [],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {}
+}
+```
+
+<Callout type='info'>
+  If the endpoint success, it will activate the user account and send him an email to confirm the account activation.
+</Callout>
