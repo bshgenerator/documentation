@@ -1,7 +1,8 @@
-import { Title } from '../../../components';
+import { Title } from "../../../components";
 
 export default {
   'installation': 'Installation',
+  'auth': 'Authentication',
   'modeling': 'Modeling',
   'security': 'Security',
   'triggers': 'Triggers',

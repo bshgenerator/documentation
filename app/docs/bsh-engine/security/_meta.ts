@@ -1,5 +1,4 @@
 export default {
-  'auth': 'Authentication',
   'users': 'Users',
   'roles': 'Roles',
   'policies': 'Policies',

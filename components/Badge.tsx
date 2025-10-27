@@ -50,7 +50,7 @@ export const Badge: React.FC<BadgeProps> = ({
     background: customBackground || variantStyles.background,
     color: customColor || variantStyles.color,
     borderRadius: '1000px',
-    padding: '2px 8px',
+    padding: '0px 6px',
     fontSize: '0.85em',
     marginLeft: '8px',
     verticalAlign: 'middle',
