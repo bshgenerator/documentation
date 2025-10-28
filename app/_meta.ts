@@ -17,11 +17,26 @@ export default {
       typesetting: 'default',
     }
   },
-  'docs': {
-    title: 'Docs',
+  'Bsh Engine': {
+    title: 'Bsh Engine',
+    href: '/docs/bsh-engine',
   },
-  'api': {
-    title: 'API',
-    href: '/docs/bsh-engine/api',
+  'Bsh Engine SDK': {
+    title: 'Bsh Engine SDK',
+    href: '/docs/bsh-engine/sdk',
+  },
+  'Librairies': {
+    title: 'Librairies',
+    type: 'menu',
+    items: {
+      'Ts Validation': {
+        title: 'Ts Validation',
+        href: '/docs/ts-validation',
+      }
+    }
+  },
+  'docs': {
+    type: 'doc',
+    display: 'children',
   }
 } satisfies MetaRecord
