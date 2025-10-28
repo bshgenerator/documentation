@@ -262,7 +262,28 @@ The **BSH Search** object is a powerful query system that allows you to search, 
         ```
     </Tabs.Tab>
     <Tabs.Tab title="Examples">
-            ## Complete Example
+    ## Simple Example
+    ```json
+    {
+        "entity": "users",
+        "fields": ["id", "name", "email"],
+        "query": [
+            {
+                "field": "email",
+                "operator": "contains",
+                "value": "@bsh.com"
+            }
+        ],
+        "pagination": {
+            "page": 0,
+            "size": 10
+        }
+    }
+    ```
+
+    This query will search for users with email containing `@bsh.com` and return the first 10 results.
+
+    ## Complete Example
 
     Here's a comprehensive example that demonstrates all the features:
 
