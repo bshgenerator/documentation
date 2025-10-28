@@ -17,9 +17,9 @@ const PostmaniconIcon: React.FC<PostmaniconIconProps> = ({
     <svg
       width={width}
       height={height}
-      viewBox="0 0 128 128"
       className={className}
       style={style}
+      viewBox="0 0 128 128"
       fill="currentColor"
     >
       
