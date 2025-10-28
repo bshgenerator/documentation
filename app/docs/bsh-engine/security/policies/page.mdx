@@ -1,5 +1,73 @@
 ---
-title: Policies
+title: Manage Policies
 ---
 
-# Policies
+# Policy Management
+
+Easily manage access control in your application by defining and maintaining policies.
+
+## Policies List
+
+View all existing security policies here:
+
+![Policies List](/images/bsh-egnine/security/policies/policies-list.png)
+
+## Creating a Policy
+
+To create a new policy:
+
+- Fill in the policy's details, define who it applies to (principals), and specify the allowed or denied permissions.
+- Save the policy to activate it.
+
+![Create Policy](/images/bsh-egnine/security/policies/create-policy.png)
+
+### Policy Properties
+
+| Property      | Type    | Required | Description                                     |
+|---------------|---------|----------|-------------------------------------------------|
+| **Name**      | string  | yes      | A unique, descriptive name for your policy.     |
+| **Description** | string | no       | Optional details about the policy's purpose.    |
+| **Priority**  | number  | yes      | Controls which policy takes precedence (higher means higher priority). |
+| **Enabled**   | boolean | yes      | Set to `true` to activate, `false` to disable.  |
+| **Principals**| array   | yes      | Defines which users or roles the policy applies to. |
+| **Permissions**|array   | yes      | Specifies what actions are allowed or denied.    |
+
+
+## Defining Principals
+
+Principals determine **_WHO_** the policy targets.
+
+![Create Policy Principals](/images/bsh-egnine/security/policies/principals-form.png)
+
+| Property   | Type   | Required | Description                                          |
+|------------|--------|----------|------------------------------------------------------|
+| **Type**   | string | yes      | Principal type: currently supported: `USER`, `ROLE`. |
+| **Value**  | string | yes      | The unique ID for the user or role                   |
+
+- For `USER`, use the User ID.
+- For `ROLE`, use the Role ID.
+- `ANY` can be used to match all types.
+
+<Callout type='info'>
+    Use the `*` wildcard value to match all users or all roles.
+</Callout>
+
+<Callout>
+    Support for new principal types like `GROUP` and `API_KEY` will be added in the future releases.
+</Callout>
+
+## Defining Permissions
+
+Permissions define **_WHAT_** actions the policy will allow or deny.
+
+![Create Policy Permissions](/images/bsh-egnine/security/policies/permissions-form.png)
+
+| Property        | Type    | Required | Description                                    |
+|-----------------|---------|----------|------------------------------------------------|
+| **Entity**      | string  | yes      | The resource/entity that the permission targets.|
+| **Action**      | string  | yes      | The type of operation permitted.                |
+| **Allow Access**| boolean | yes      | Grant or deny access.        |
+
+Allowed actions include: `READ`, `WRITE`, `UPDATE`, `DELETE`, `SEARCH`.
+
+**Tip:** Use priorities to determine which policy takes effect when multiple policies apply to the same entity and principal.

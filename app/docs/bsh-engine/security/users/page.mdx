@@ -1,5 +1,33 @@
 ---
-title: Users
+title: Manage Users
 ---
 
-# Users
+# Manage Users
+
+## Users List
+
+![Users List](/images/bsh-egnine/security/users/users-list.png)
+
+## Initialize User
+
+To invite new users to your application, you can use the initialize user form:
+
+<Callout type='info'>
+    For detailed request and response formats, refer to the [Users API Documentation](/docs/bsh-engine/api/users/init-user).
+</Callout>
+
+![Initialize User](/images/bsh-egnine/security/users/init-user.png)
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| **Email** | string | yes | The email address of the user. |
+| **Password** | string | no | The password of the user. |
+| **Roles** | array | yes | The roles of the user. |
+| **First Name** | string | yes | The first name of the user. |
+| **Last Name** | string | yes | The last name of the user. |
+| **Phone** | string | no | The phone number of the user. |
+
+<Callout type='info'>
+    After a user is initialized, they will receive an email with a link to activate their account.<br/>
+    You can customize the content of these emails in the [Email Templates](/docs/bsh-engine/mailing/email-templates) section.
+</Callout>
