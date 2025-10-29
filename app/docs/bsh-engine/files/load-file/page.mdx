@@ -1,5 +1,30 @@
 ---
-title: Load File
+title: Manage Images
 ---
 
-# Load File
+# Manage Images
+
+## Uplaod Images
+
+Bsh Engine allow you to uplaod images directly from admin panel:
+
+![Uplaod Images](/images/bsh-egnine/files/load-file.png)
+
+| Property | Description | Required |
+|----------|-------------|----------|
+| Namespace | The namespace where store the image (will be under the folder from [configurations](/docs/bsh-engine/files/configurations)) | No |
+| Asset ID | The name to identify the image | No |
+| Tags | tags for the image | No |
+| Context | context for the image | No |
+
+<Callout type='info'>
+    You can use the [API](/docs/bsh-engine/api/files/upload-image) to upload images programmatically.
+</Callout>
+
+## Uplaoded Images List
+
+![Uplaod Images](/images/bsh-egnine/files/loaded-files.png)
+
+<Callout type='info'>
+    This page is using `BshFiles` to list the uploaded images.
+</Callout>

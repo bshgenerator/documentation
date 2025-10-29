@@ -6,7 +6,7 @@ export default {
   'modeling': 'Modeling',
   'security': 'Security',
   'triggers': <Title title='Triggers' badge='soon' />,
-  'files': <Title title='Files' badge='soon' />,
+  'files': 'Files',
   'mailing': <Title title='Mailing' badge='soon' />,
   'caching': <Title title='Caching' badge='planned' />,
   'websocket': <Title title='WebSocket' badge='planned' />,
