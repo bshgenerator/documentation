@@ -3,3 +3,26 @@ title: Send Email
 ---
 
 # Send Email
+
+After you have configured the [email configurations](/docs/bsh-engine/mailing/configurations), you can use either the admin panel or the [API](/docs/bsh-engine/api/mailing/send-email) to send emails to your users.
+
+## Admin Panel
+
+![Send Email](/images/bsh-egnine/mailing/send-email.png)
+
+| Property | Description | Required | default
+|----------|-------------|----------|----------|
+| To | The email address of the recipient | Yes | ~ |
+| Subject | The subject of the email | Yes | ~ |
+| Body | The body of the email | Yes | ~ |
+| HTML | Whether the email is HTML | No | false |
+
+## Sent Emails
+
+Every email sent will be logged in the **BshEmails** entity, you can see the email details and the email tracking information.<br/>
+
+<Callout type='info'>
+    the body is not saved in the database, it is only used to send the email.
+</Callout>
+
+![Sent Emails](/images/bsh-egnine/mailing/sent-emails.png)

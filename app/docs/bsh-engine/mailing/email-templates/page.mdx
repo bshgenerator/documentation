@@ -3,3 +3,41 @@ title: Email Templates
 ---
 
 # Email Templates
+
+Bsh Engine allows you to create email templates to send emails to your users, this allow yout to set a templates that you can use to send emails without need to write the email content every time.
+
+![Email Templates](/images/bsh-egnine/mailing/templates-list.png)
+
+<Callout type='info'>
+    When you start the engine, it will create default email templates for authentication operations (activation, reset password, etc.).<br/>
+    You can edit them to customize the content of the emails.
+</Callout>
+
+## Create an Email Template
+
+![Create Email Template](/images/bsh-egnine/mailing/template-create.png)
+
+| Property | Description | Required | default
+|----------|-------------|----------|----------|
+| Name | The name of the email template | Yes | ~ |
+| Subject | The subject of the email template | Yes | ~ |
+| Body | The body of the email template | Yes | ~ |
+| HTML | Whether the email template is HTML | No | false |
+
+## Template Variables
+
+Bsh Engine allows you to use variables in your email templates to personalize the email content, the syntax is `{{variableName}}`.<br/>
+
+for the authentication operations templates, you can access the user information like this:
+
+```handlebars
+Hello {{profile.firstName}} {{profile.lastName}},
+Welcome to our application.
+Your login URL is: https://app.example.com/login
+If you have any questions, please contact us at support@example.com.
+```
+
+<Callout type='info'>
+    When using a templates with variables to send emails, you must pass the `data` object with the variables values.<br/>
+    Read more about the [Send Email](/docs/bsh-engine/api/mailing/send-email) endpoint.
+</Callout>

@@ -1,5 +1,46 @@
 ---
-title: Configurations
+title: Configure Emails
 ---
 
-# Configurations
+# Configure Emails
+
+Bsh Engine allows you to configure your email settings to send emails to your users.
+
+![Configure Emails](/images/bsh-egnine/mailing/configurations.png)
+
+## Gmail Provider
+
+Bsh Engine supports [Gmail](https://mail.google.com/) as an email provider, you can configure it to send emails to your users using your Gmail account.
+
+| Property | Description | Required | default
+|----------|-------------|----------|----------|
+| Gmail Address | The email address to use for the SMTP server | Yes | null |
+| App Password | The app password to use for the SMTP server | Yes | null |
+| SMTP Host | The host of the SMTP server | Yes | `smtp.gmail.com` |
+| SMTP Port | The port of the SMTP server | Yes | `587` |
+| Protocol | The protocol to use for the SMTP server | Yes | `smtp` |
+| Enable Authentication | Whether to enable authentication for the SMTP server | Yes | true |
+| Enable STARTTLS | Whether to enable STARTTLS for the SMTP server | Yes | true |
+
+<Callout type='info'>
+    How to get your Gmail App Password:
+    - Go to your [Google Account settings](https://myaccount.google.com/)
+    - Navigate to Security → 2-Step Verification (if not enabled, enable it)
+    - search for "App passwords"
+    - Enter "BSH Engine" as the app name
+    - Copy the generated 16-character password and use it above
+</Callout>
+
+## Mail Dev Provider
+
+Bsh Engine supports [Mail Dev](https://maildev.github.io/maildev/) as an email provider, you can configure it to send emails to your users using your Mail Dev account.
+
+| Property | Description | Required | default
+|----------|-------------|----------|----------|
+| Gmail Address | The email address to use for the SMTP server | Yes | null |
+| App Password | The app password to use for the SMTP server | Yes | null |
+| SMTP Host | The host of the SMTP server | Yes | `localhost` |
+| SMTP Port | The port of the SMTP server | Yes | `1025` |
+| Protocol | The protocol to use for the SMTP server | Yes | `smtp` |
+| Enable Authentication | Whether to enable authentication for the SMTP server | Yes | true |
+| Enable STARTTLS | Whether to enable STARTTLS for the SMTP server | Yes | true |
