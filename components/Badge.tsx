@@ -20,8 +20,8 @@ const badgeVariants = {
     color: '#28a745',
   },
   beta: {
-    background: '#ffc1071a',
-    color: '#ffc107',
+    background: '#7C3AED1A',
+    color: '#7C3AED',
   },
   deprecated: {
     background: '#dc35451a',

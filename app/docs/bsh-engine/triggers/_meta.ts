@@ -1,5 +1,14 @@
 export default {
-  'events': 'Events',
-  'triggers': 'Triggers',
-  'trigger-instances': 'Trigger Instances'
+  'events': {
+    title: 'Events',
+    display: 'hidden'
+  },
+  'triggers': {
+    title: 'Triggers',
+    display: 'hidden'
+  },
+  'trigger-instances': {
+    title: 'Trigger Instances',
+    display: 'hidden'
+  }
 }
