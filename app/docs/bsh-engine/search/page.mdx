@@ -6,7 +6,7 @@ import { Callout, Tabs } from 'nextra/components';
 
 # BSH Search
 
-The **BSH Search** object is a powerful query system that allows you to search, filter, group, sort, and paginate data across entities in the BSH Engine. It provides a flexible and type-safe way to construct complex queries.
+The **BSH Search** object is a powerful search system that allows you to search, filter, group, sort, and paginate data across entities in the BSH Engine. It provides a flexible and type-safe way to construct complex queries.
 
 <Tabs items={['Documentation', 'TypeScript', 'Examples', 'Best Practices']}>
     <Tabs.Tab title="Documentation">
@@ -30,18 +30,12 @@ The **BSH Search** object is a powerful query system that allows you to search, 
     }
     ```
 
-    ```json
-    {
-        "fields": "name"
-    }
-    ```
-
-    ### `query` [#query]
-    The main filtering mechanism using query leaves to build complex conditions.
+    ### `filters` [#filters]
+    Use filters to build fetch data with conditions.
 
     ```json
     {
-        "query": [
+        "filters": [
             {
                 "field": "age",
                 "operator": "gte",
@@ -49,7 +43,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
             },
             {
                 "operator": "or",
-                "query": [
+                "filters": [
                     {
                         "field": "status",
                         "operator": "eq",
@@ -74,7 +68,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
             | `field` | The field to apply the condition to | yes |
             | `value` | The value to compare against | yes |
             | `type` | Optional type specification for the field | no |
-            | `query` | Nested query leaves for complex conditions | if used logical operator |
+            | `filters` | Nested filters to build complex conditions | if used logical operator |
         </Tabs.Tab>
         <Tabs.Tab title="Comparison Operators">
             | Operator | Description |
@@ -203,17 +197,17 @@ The **BSH Search** object is a powerful query system that allows you to search, 
         ```typescript
         type CaseInsensitive<T extends string> = T | Uppercase<T>;
 
-        export type BshSearch<T = unknown> = {
+        export type BshSearch = {
             entity?: string
-            fields?: keyof T | string[]
-            query?: QueryLeaf<T>[]
-            groupBy?: GroupBy<T>
-            sort?: Sort<T>[]
+            fields?: string[]
+            filters?: Filter[]
+            groupBy?: GroupBy
+            sort?: Sort[]
             pagination?: Pagination
         }
 
-        export type LogicalOperator = CaseInsensitive<"and" | "or">;
-        export type ComparisonOperator = CaseInsensitive<
+        export type LogicalOperator = "and" | "or";
+        export type ComparisonOperator =
             | "eq" | "ne"
             | "gt" | "gte"
             | "lt" | "lte"
@@ -222,19 +216,19 @@ The **BSH Search** object is a powerful query system that allows you to search, 
             | "starts" | "istarts"
             | "in" | "nin"
             | "between"
-            | "isnull" | "notnull">;
+            | "isnull" | "notnull";
 
-        export type QueryLeaf<T = unknown> = {
+        export type Filter = {
             operator?: ComparisonOperator | LogicalOperator;
-            field?: string | keyof T;
+            field?: string;
             value?: unknown;
             type?: string;
-            query?: QueryLeaf<T>[];
+            filters?: Filter[];
         };
 
-        export type GroupBy<T = unknown> = {
-            fields?: string[] | keyof T[]
-            aggregate?: Aggregate<T>[]
+        export type GroupBy = {
+            fields?: string[]
+            aggregate?: Aggregate[]
         }
 
         export type AggregateFunction =
@@ -244,14 +238,14 @@ The **BSH Search** object is a powerful query system that allows you to search, 
             | "MIN"
             | "MAX"
 
-        export type Aggregate<T = unknown> = {
+        export type Aggregate = {
             function?: AggregateFunction
-            field?: string | keyof T
+            field?: string
             alias?: string
         }
 
-        export type Sort<T> = {
-            field?: string | keyof T
+        export type Sort = {
+            field?: string
             direction?: -1 | 1
         }
 
@@ -267,7 +261,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
     {
         "entity": "users",
         "fields": ["id", "name", "email"],
-        "query": [
+        "filters": [
             {
                 "field": "email",
                 "operator": "contains",
@@ -281,7 +275,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
     }
     ```
 
-    This query will search for users with email containing `@bsh.com` and return the first 10 results.
+    This filters will search for users with email containing `@bsh.com` and return the first 10 results.
 
     ## Complete Example
 
@@ -291,7 +285,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
     {
         "entity": "employees",
         "fields": ["id", "name", "email", "salary", "department"],
-        "query": [
+        "filters": [
             {
                 "field": "age",
                 "operator": "gte",
@@ -299,7 +293,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
             },
             {
             "operator": "and",
-            "query": [
+            "filters": [
                 {
                     "field": "status",
                     "operator": "eq",
@@ -307,7 +301,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
                 },
                 {
                     "operator": "or",
-                    "query": [
+                    "filters": [
                         {
                             "field": "department",
                             "operator": "in",
@@ -354,7 +348,7 @@ The **BSH Search** object is a powerful query system that allows you to search, 
     }
     ```
 
-    This query will:
+    This filters will:
     1. Search the `employees` entity
     2. Filter for employees aged 25 or older who are active
     3. Further filter for those in engineering/marketing departments OR with salary > 50000
