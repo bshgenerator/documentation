@@ -19,11 +19,11 @@ Create a new file called `docker-compose.yml` in the root of your project
     <Tabs.Tab title="Without Database">
 ```yaml filename="docker-compose.yml" {3}
 services:
-    backend:
+  backend:
     image: 'bshg/engine:latest'
-    container_name: 'bsh-engine-backend'
+    container_name: 'engine-backend'
     ports:
-        - '7071:7071'
+      - '7071:7071'
     env_file:
       - .env
 ```
@@ -36,12 +36,12 @@ services:
     container_name: 'engine-backend'
     ports:
       - '7071:7071'
-    networks:
-      - engine-net
     env_file:
       - .env
     depends_on:
       - postgres
+    networks:
+      - engine-net
 
   postgres:
     image: 'postgres:latest'
@@ -57,7 +57,6 @@ services:
       - ./data/engine-postgres-data:/var/lib/postgresql/data
     networks:
       - engine-net
-    restart: unless-stopped
 
 networks:
   engine-net:
@@ -80,11 +79,13 @@ BSH_DB_USER=engine
 BSH_DB_PASSWORD=password
 BSH_DB_DRIVER=org.postgresql.Driver
 
-BSH_PORT=7071
+BSH_PORT=7071 # optional
 BSH_FRONTEND_HOST=http://localhost:*
 
 BSH_ADMIN_USERNAME=admin@engine.com
-BSH_ADMIN_PASSWORD=password 
+BSH_ADMIN_PASSWORD=password
+
+BSH_CORE_INSTALL=true # optional
 ```
 
 adjust the environment variables to your needs.
@@ -93,6 +94,13 @@ adjust the environment variables to your needs.
     - `BSH_FRONTEND_HOST` should be the same as the frontend host or any other host that you want to access the engine from.
     - `BSH_ADMIN_USERNAME` and `BSH_ADMIN_PASSWORD` are the credentials for the admin user. It will be created automatically when the engine starts.
 </Callout>
+
+> **❗`BSH_CORE_INSTALL`**
+>
+> - `BSH_CORE_INSTALL` controls whether the core plugin and its initial configuration are installed when starting the engine.
+> - For first-time setup, set `BSH_CORE_INSTALL=true` (default). This creates core resources, including a default admin user and roles.
+> - **Important:** If you make manual changes to core configurations, set `BSH_CORE_INSTALL=false` *before* restarting the engine. This prevents your manual changes from being overwritten.
+
 
 ### Run the Engine
 
