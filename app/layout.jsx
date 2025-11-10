@@ -8,10 +8,10 @@ export const metadata = {
   title: 'BSH Solutions',
   description: 'BSH Solutions Documentation',
   icons: {
-    icon: '/logo/logo.svg',
+    icon: '/favicon.ico',
   }
 }
- 
+
 const banner = null
 
 const navbar = (
