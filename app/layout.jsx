@@ -3,7 +3,7 @@ import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import { Logo } from '../icons/Logo'
- 
+
 export const metadata = {
   title: 'BSH Solutions',
   description: 'BSH Solutions Documentation',
@@ -23,10 +23,10 @@ const footer = <Footer>
   <div >
     <span>
       © {new Date().getFullYear()} | Licensed under MIT. Crafted with care by
-      <a href="https://bsh.bousalih.com" target="_blank" style={{color: '#0077b5', marginLeft: '0.5rem'}}>
-          BSH Solutions</a>. Founded by
-      <a href="https://www.linkedin.com/in/bousalih-hamza/" target="_blank" style={{color: '#0077b5', marginLeft: '0.5rem'}}>
-          Bousalih Hamza</a>.
+      <a href="https://bsh.bousalih.com" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
+        BSH Solutions</a>. Founded by
+      <a href="https://www.linkedin.com/in/bousalih-hamza/" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
+        Bousalih Hamza</a>.
     </span>
   </div>
 </Footer>
@@ -66,6 +66,8 @@ export default async function RootLayout({ children }) {
         >
           {children}
         </Layout>
+        <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+        <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
       </body>
     </html>
   )
