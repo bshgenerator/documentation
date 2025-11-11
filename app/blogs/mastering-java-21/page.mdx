@@ -1,0 +1,95 @@
+---
+title: Mastering Java 21
+---
+
+import {BlogAuthor} from "../../../components";
+
+<small>22 July 2024</small>
+
+![image](/blogs/mastering-java-21.webp)
+
+# Mastering Java 21: Key Features Every Backend Developer Should Know
+
+<BlogAuthor author='bousalih'/>
+
+Java 21, a Long-Term Support (LTS) release, marks a significant milestone in the evolution of the Java ecosystem. For backend and server-side developers, this version delivers not only performance improvements but also powerful new language features and APIs. In this blog, we'll explore the key highlights of Java 21 and how they can enhance backend development.
+
+## 1. Virtual Threads
+
+Traditional threads are expensive and resource-intensive, especially when scaling backend systems. Java 21 finalizes virtual threads, introduced earlier in Java 19 as a preview, which are lightweight and designed for high concurrency workloads. They allow developers to handle thousands of concurrent HTTP requests without relying on complex asynchronous constructs or reactive programming frameworks. Instead, you can write simple, blocking-style code while the underlying JVM manages concurrency efficiently. For example:
+
+```java
+ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+executor.submit(() -> handleRequest());
+```
+
+This **dramatically** simplifies the programming model and improves the performance and scalability of Java-based backend services.
+
+## 2. Record Patterns and Pattern Matching for switch
+
+Java 21 continues refining pattern matching by introducing more expressive syntax, allowing developers to write concise, type-safe code for extracting and processing data.
+
+This is particularly useful when dealing with immutable data models such as **Java records**, which are common in REST API payloads and message-driven architectures.
+
+With pattern matching in `switch` expressions, you can eliminate the need for verbose `instanceof` checks and casting. For example:
+
+```java
+record User(String name, int age) {}
+
+// Before
+Object obj = new User("Alice", 30);
+static String describe(Object obj) {
+    if (obj instanceof User user) {
+       return user.name() + " is " + user.age() + " years old.";
+    } else {
+        return "Unknown object";
+    }
+}
+
+// After Java 21
+static String describe(Object obj) {
+    return switch (obj) {
+        case User(String name, int age) -> name + " is " + age + " years old.";
+        default -> "Unknown object";
+    };
+}
+```
+
+## 3. Sequenced Collections
+
+Java 21 introduces the new `SequencedCollection` interface, which ensures a predictable order of elements within collections. This is especially useful in backend scenarios that rely on ordered data processing, such as log buffers, audit trails, or ordered event handling in streaming systems. Collections like **ArrayList** now support methods like `addFirst()` and `addLast()` to manipulate data at both ends, providing deque-like functionality with improved clarity and intent.
+
+```java
+SequencedCollection<String> seq = new ArrayList<>();
+seq.addFirst("first");
+seq.addLast("last");
+```
+
+## 4. Scoped Values (Incubator)
+
+Java 21 introduces `ScopedValue` as an incubating feature, designed to offer a safer and more efficient alternative to `ThreadLocal` for sharing immutable context data across threads, including virtual threads. This is particularly relevant for backend systems that need to propagate request-scoped or session-specific data without the pitfalls of mutable or globally shared state. Instead of relying on cumbersome thread-local constructs, `ScopedValue` allows you to define a value that's confined to a well-defined execution scope, ensuring clean lifecycle management and improved performance.
+
+```java
+ScopedValue<String> userId = ScopedValue.newInstance();
+ScopedValue.where(userId, "123").run(() -> process(userId.get()));
+```
+
+The result is code that's easier to reason about in concurrent environments, more maintainable, and inherently safer when managing context within high-concurrency Java applications.
+
+## 5. Structured Concurrency (Preview)
+
+Structured concurrency, introduced as a preview feature in Java 21, brings a new way of managing multiple concurrent tasks by treating them as a cohesive unit of work. This is particularly useful in backend operations where several related tasks, like fetching user details and associated orders from different services, need to run concurrently while maintaining a clear structure and lifecycle.
+
+With `StructuredTaskScope`, you can fork multiple subtasks and manage their execution in a predictable and controlled manner. If any subtask fails, the whole scope can be shut down cleanly, helping to avoid resource leaks and inconsistent states.
+
+```java
+try (var scope = StructuredTaskScope.shutdownOnFailure()) {
+    Future<String> user = scope.fork(() -> getUser());
+    Future<String> orders = scope.fork(() -> getOrders());
+    scope.join();
+    scope.throwIfFailed();
+    return user.result() + orders.result();
+}
+```
+
+This feature makes concurrent code easier to read, safer to maintain, and more robust—especially in complex backend flows involving multiple service or database calls.
