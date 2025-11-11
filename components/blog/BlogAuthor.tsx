@@ -1,5 +1,5 @@
 import authors from './authors'
-import { GithubIcon, LinkedinIcon } from 'lucide-react'
+import { GithubIcon, GlobeIcon, LinkedinIcon } from 'lucide-react'
 
 type AuthorType = {
     author: keyof typeof authors,
@@ -32,6 +32,7 @@ export const BlogAuthor = (
             <div style={{display: 'flex', flexWrap: 'wrap', marginTop: 15, gap: 10}}>
                 <a href={authorDetails.links.github} target='_blank'><GithubIcon width={20} height={20}/></a>
                 <a href={authorDetails.links.in} target='_blank'><LinkedinIcon width={20} height={20}/></a>
+                <a href={authorDetails.links.website} target='_blank'><GlobeIcon width={20} height={20}/></a>
             </div>
         </div>
     )
