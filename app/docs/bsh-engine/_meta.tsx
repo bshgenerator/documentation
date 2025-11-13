@@ -8,6 +8,7 @@ export default {
   'files': 'Files',
   'mailing': 'Mailing',
   'triggers': <Title title='Triggers' badge='beta' />,
+  'settings': <Title title='Engine Settings' badge='new' />,
   'caching': <Title title='Caching' badge='planned' />,
   'websocket': <Title title='WebSocket' badge='planned' />,
   'packaging': <Title title='Packaging' badge='planned' />,

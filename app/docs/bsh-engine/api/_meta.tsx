@@ -9,4 +9,5 @@ export default {
   'files': 'Files',
   'mailing': 'Mailing',
   'api-keys':  <Title title='API Keys' badge='new' />,
+  'settings':  <Title title='Settings' badge='new' />,
 } satisfies MetaRecord

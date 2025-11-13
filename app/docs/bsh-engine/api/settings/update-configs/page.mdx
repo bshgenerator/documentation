@@ -1,0 +1,41 @@
+---
+title: Update Configs
+---
+
+# Update Configs
+
+Update application configuration settings. This endpoint allows you to modify the current settings by providing a JSON payload with the updated values.
+
+```bash
+PUT /api/settings
+```
+
+## Request Body
+
+The request body should be a JSON object (`JsonNode`) containing the configuration settings you want to update.
+
+```json
+{
+    "name": "BshEngine",
+    "api": {
+        "auth": {
+            "enableRegister": true
+        },
+        "response": {
+            "showSql": false
+        }
+    }
+}
+```
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | string | Yes | Always `BshEngine` |
+| `api.auth.enableRegister` | boolean | Yes | Whether to enable the register feature |
+| `api.response.showSql` | boolean | Yes | Whether to show the SQL queries in the responses |
+
+<Callout type="warning">
+  <b>Important:</b> When updating nested configuration objects (such as <code>api.auth</code>), your provided payload will completely <strong>replace</strong> the entire target object. This means any omitted properties will be lost. Be sure to include <strong>all</strong> configuration fields you wish to retain, not just those you want to change.
+</Callout>

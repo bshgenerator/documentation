@@ -1,0 +1,36 @@
+---
+title: Get Configs
+---
+
+# Get Configs
+
+Retrieve the current application configuration settings.
+
+```bash
+GET /api/settings
+```
+
+## Response
+
+```json
+{
+    "data": [
+        {
+            "name": "BshEngine",
+            "persistenceId": "BshEngine",
+            "api": {
+                "auth": {
+                    "enableRegister": true
+                },
+                "response": {
+                    "showSql": false
+                }
+            }
+        }
+    ],
+    "timestamp": 1763076624,
+    "code": 200,
+    "status": "OK",
+    "meta": {}
+}
+```
