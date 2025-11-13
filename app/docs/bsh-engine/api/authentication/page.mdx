@@ -25,11 +25,12 @@ The Authentication API provides endpoints for user authentication, token managem
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/auth/login` | Authenticate user with email and password |
-| POST | `/api/auth/refresh` | Refresh expired access token |
-| POST | `/api/auth/forget-password` | Request password reset code via email |
-| POST | `/api/auth/reset-password` | Reset password using verification code |
-| POST | `/api/auth/activate-account` | Activate user account using verification code |
+| [POST](/docs/bsh-engine/api/authentication/register) | `/api/auth/register` | Register new user |
+| [POST](/docs/bsh-engine/api/authentication/activate-account) | `/api/auth/activate-account` | Activate user account using verification code |
+| [POST](/docs/bsh-engine/api/authentication/login) | `/api/auth/login` | Authenticate user with email and password |
+| [POST](/docs/bsh-engine/api/authentication/refresh-token) | `/api/auth/refresh` | Refresh expired access token |
+| [POST](/docs/bsh-engine/api/authentication/forgot-password) | `/api/auth/forget-password` | Request password reset code via email |
+| [POST](/docs/bsh-engine/api/authentication/reset-password) | `/api/auth/reset-password` | Reset password using verification code |
 
 ## Token Usage
 
@@ -43,12 +44,15 @@ Authorization: Bearer {{accessToken}}
 
 ```mermaid
 flowchart TD
+    X[Register] --> Y[Activate Account]
+    Y --> A[Login]
     A[Login] --> B{Tokens Received?}
     B -- Yes --> C[Store tokens]
     C --> D[Access Protected Endpoints]
     D --> E{Access Token Expired?}
     E -- No --> D
     E -- Yes --> F[Refresh Token]
-    F --> B
+    F -- No --> B
+    F -- Yes --> C
     D --> G[Logout: discard tokens; no endpoint]
 ```

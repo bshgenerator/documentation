@@ -20,3 +20,12 @@ The create role form allows you to create a new role.
 |----------|------|----------|-------------|
 | **Name** | string | yes | The name of the role. |
 | **Description** | string | no | The description of the role. |
+| **Public** | boolean | no | Whether the role is public. |
+
+### Public Roles
+
+Public roles are roles that are available to all users, they are used to define the roles allowed for users to register to the application.
+
+<Callout type='info'>
+    Engine uses public roles for security purposes to prevent users from registering to the application with roles that are not allowed.
+</Callout>

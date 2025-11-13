@@ -1,0 +1,62 @@
+---
+title: Register
+---
+
+# Register
+
+Users can create new accounts by using the register endpoint.
+
+```bash
+POST /api/auth/register
+```
+
+## Request Body
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "profile": {
+    "firstName": "first",
+    "lastName": "last"
+  },
+  "roles": ["DEV_USER"]
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The email address of the user. |
+| `password` | string | yes | The password of the user. |
+| `profile` | object | yes | The profile of the user. |
+| `roles` | array | yes | The roles of the user. |
+
+<Callout type='info'>
+    The `profile` object is customizable; define any fields you want to include in a user's profile. This allows you to tailor user data storage to your application's specific requirements.
+</Callout>
+
+<Callout type='warning'>
+    The `roles` are allowed only to use [`public` roles](/docs/bsh-engine/security/roles#public-roles), all non-public roles will be ignored.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "email": "user@example.com",
+      "profile": {
+        "firstName": "first",
+        "lastName": "last"
+      },
+      "roles": ["DEV_USER"]
+    }
+  ],
+  "status": "CREATED",
+  "code": 201,
+  "timestamp": 1234567890,
+  "meta": {}
+  ...
+}
+```
