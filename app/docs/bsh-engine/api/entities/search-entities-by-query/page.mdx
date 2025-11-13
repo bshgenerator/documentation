@@ -1,0 +1,61 @@
+---
+title: Search Entities by Query
+---
+
+import { Callout } from 'nextra/components';
+
+# Search Entities by Query
+
+with this endpoint you can do search directly by from the url query parameters.
+
+```bash
+GET /api/entities/:entity?page=0&size=10&sort=createdAt:desc&filter=<field>:<operator>:<value>,<field>:<operator>:<value>,...
+```
+
+## Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|----------|-------------|
+| `entity` | string | yes | ~ | The name of the entity to search |
+| `page` | number | no | 0 | The page number |
+| `size` | number | no | 10 | The page size |
+| `sort` | string | no | ~ | The sort by field (field:direction) |
+| `filter` | string | no | ~ | The filter by field (field:operator:value) |
+
+<Callout type='info'>
+  The `filter` parameter is a comma-separated list of filter conditions.
+</Callout>
+
+<Callout type='info'>
+  The query parameters are converted to a [BSH Search](/docs/bsh-engine/search) object internally.
+</Callout>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    {
+      "id": 2,
+      "name": "John Smith",
+      "email": "john.smith@example.com"
+    }
+  ],
+  "timestamp": 1234567890,
+  "code": 200,
+  "status": "OK",
+  "meta": {},
+  "pagination": {
+    "current": 1,
+    "total": 18,
+    "pages": 2,
+    "first": true,
+    "last": false
+  }
+}
+```
