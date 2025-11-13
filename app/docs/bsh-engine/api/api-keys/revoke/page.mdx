@@ -1,0 +1,109 @@
+---
+title: Revoke API Key
+---
+
+# Revoke API Key
+
+Immediately invalidate an API key, preventing any further use. This action cannot be undone.
+
+```bash
+DELETE /api/api-keys/{id}
+```
+
+## Authentication
+
+This endpoint requires a valid JWT token in the Authorization header:
+
+```bash
+Authorization: Bearer <your-jwt-token>
+```
+
+## Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | number | yes | The unique identifier of the API key to revoke |
+
+## Response
+
+**Success Response (200 OK):**
+
+```json
+{
+  "code": 200,
+  "message": "API key revoked successfully",
+  "data": [
+    {
+      "id": 123,
+      "name": "My API Key",
+      "apiKey": "bsh_********",
+      "type": "MACHINE",
+      "status": "REVOKED",
+      "duration": 30,
+      "startedAt": "2025-01-15T10:30:00Z",
+      "expiresAt": "2025-02-14T10:30:00Z",
+      "userId": "user-123"
+    }
+  ]
+}
+```
+
+After revocation, the API key's `status` will be set to `REVOKED`, and it will no longer be accepted for authentication.
+
+## Error Responses
+
+**403 Forbidden** - Not authorized to revoke this key:
+
+```json
+{
+  "code": 403,
+  "error": "Forbidden",
+  "meta": {
+    "type": "Authorization Error",
+    "details": "You are not authorized to revoke this API key"
+  }
+}
+```
+
+**404 Not Found** - Key not found:
+
+```json
+{
+  "code": 404,
+  "error": "Not Found",
+  "meta": {
+    "type": "API Key Not Found",
+    "details": "API key with id 123 does not exist"
+  }
+}
+```
+
+**401 Unauthorized** - Authentication required:
+
+```json
+{
+  "code": 401,
+  "error": "Unauthorized",
+  "meta": {
+    "type": "Authentication Required"
+  }
+}
+```
+
+## Important Notes
+
+- Revoking an API key is **permanent** and **cannot be undone**
+- Once revoked, the key will immediately stop working for all API requests
+- You can only revoke API keys that belong to your user account
+- Revoked keys will show `status: "REVOKED"` in subsequent list/search operations
+- If you need to use the API again, you must create a new API key
+
+## When to Revoke Keys
+
+Consider revoking API keys in these scenarios:
+
+- **Security breach**: If a key may have been compromised
+- **Key rotation**: When rotating to a new key as part of security best practices
+- **Project completion**: When an integration or project is no longer active
+- **Access change**: When permissions need to be changed (create a new key with updated scopes instead)
+- **Unused keys**: To clean up keys that are no longer needed

@@ -1,0 +1,80 @@
+---
+title: Generate API Key
+---
+
+# Generate API Key
+
+Generate a new API key for programmatic access to the BSH Engine API.
+
+```bash
+POST /api/api-keys
+```
+
+## Request Body
+
+```json
+{
+  "name": "My API Key",
+  "type": "MACHINE",
+  "duration": 30,
+  "description": "API key for production integration",
+  "scopes": [
+    "BshUsers:read",
+    "BshUsers:update",
+    "BshEntities:read"
+  ]
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `name` | string | yes | A descriptive name |
+| `type` | `PERSONAL`, `MACHINE` | no | Choose Personal or Machine type (default: `PERSONAL`) |
+| `duration` | number | yes | Expiration period in days (must be greater than 0) |
+| `description` | string | no | Additional notes about the key's purpose |
+| `scopes` | array of strings | yes (for `MACHINE`) | Entity and action permissions in format `EntityName:ACTION` |
+
+## Response
+
+**Success Response (201 Created):**
+
+```json
+{
+  "data": [
+    {
+      "id": 123,
+      "apiKey": "bsh_abcd1234efgh5678ijkl9012mnop3456qrst7890",
+      "name": "My API Key",
+      "type": "MACHINE",
+      "status": "ACTIVE",
+      "duration": 30,
+      "startedAt": "2025-01-15T10:30:00Z",
+      "expiresAt": "2025-02-14T10:30:00Z",
+      "userId": "user-123"
+    }
+  ],
+  "status": "CREATED",
+  "code": 201,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | number | Unique identifier for the API key |
+| `apiKey` | string | The full API key value (only shown once during creation) |
+| `name` | string | The name assigned to the API key |
+| `type` | string | The type of API key (`PERSONAL`, `MACHINE`) |
+| `status` | string | Current status of the key (`ACTIVE`, `REVOKED`, `DISABLED`) |
+| `duration` | number | Expiration period in days |
+| `startedAt` | string | ISO 8601 timestamp when the key was created |
+| `expiresAt` | string | ISO 8601 timestamp when the key will expire |
+| `userId` | string | ID of the user who created the key |
+
+## Important Notes
+
+⚠️ **Save your API key immediately!** The full `apiKey` value is only returned once in the response. After this, the key will be masked as `bsh_********` in all subsequent API calls for security purposes.
+
+For **MACHINE** type keys, you must provide at least one scope. For **PERSONAL** type keys, scopes are not required as they inherit all user permissions.
+

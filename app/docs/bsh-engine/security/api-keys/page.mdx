@@ -4,18 +4,130 @@ title: API Keys
 
 # API Keys
 
-<Callout>
-  The **API Keys** feature is planned and is **not yet available**.
+API keys provide secure programmatic access to the BSH Engine API without requiring user login credentials. They are ideal for automated systems, third-party applications, or personal scripts.
+
+<Callout type='info'>
+    For API reference documentation, see the [API Keys API](/docs/bsh-engine/api/api-keys) section.
 </Callout>
 
-API Keys will soon give you powerful control over API access and security for your application.
+## API Key Types
 
-## What You'll Be Able to Do with API Keys
+The system supports two types of API keys:
 
-- **Authentication**: Generate and distribute unique API keys to grant access to external apps or developers.
-- **Access Control**: Assign permissions or restrictions to each API key, specifying which endpoints and actions are allowed.
-- **Key Management**: List, track, regenerate, and revoke API keys at any time.
-- **Usage Monitoring**: View usage statistics and audit logs related to each API key.
-- **Security**: Quickly disable compromised or expired keys without affecting other integrations.
+<Tabs items={['Personal Keys', 'Machine Keys']}>
+    <Tabs.Tab label='Personal Keys'>
+      - Inherit all permissions from the user who created them
+      - Synchronize with user permissions changes
+    </Tabs.Tab>
+    <Tabs.Tab label='Machine Keys'>
+      - Use scope-based permission model
+      - Require explicit entity and action permissions
+      - Independent of user permissions
+      - Perfect for Machine to Machine (M2M) integrations
+    </Tabs.Tab>
+</Tabs>
 
-Stay tuned for updates on this page as the API Keys feature rolls out!
+## API Keys List
+
+View all your API keys in the dashboard:
+
+![API Keys List](/images/bsh-egnine/security/api-keys/api-keys-list.png)
+
+## Creating a New API Key
+
+<Tabs items={['Personal Keys', 'Machine Keys']}>
+    <Tabs.Tab label='Personal Keys'>
+        ![Create API Key](/images/bsh-egnine/security/api-keys/create-api-key-personal.png)
+    </Tabs.Tab>
+    <Tabs.Tab label='Machine Keys'>
+        ![Create API Key](/images/bsh-egnine/security/api-keys/create-api-key-machine.png)
+    </Tabs.Tab>
+</Tabs>
+
+### Properties
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| **Name** | string | yes | A descriptive name |
+| **Type** | `PERSONAL`, `MACHINE` | no | Choose Personal or Machine type (default: `PERSONAL`) |
+| **Duration** | number | yes | Expiration period in days (must be greater than 0) |
+| **Description** | string | no | Additional notes about the key's purpose |
+| **Scopes** | array of strings | yes (for `MACHINE`) | Entity and action permissions in format `EntityName:ACTION` |
+
+### Scopes
+
+For `MACHINE` API keys, you need to configure scopes:
+
+- **Format**: `EntityName:ACTION` (e.g., `BshUsers:read`, `BshEntities:write`)
+- **Available Actions**: `READ`, `WRITE`, `UPDATE`, `DELETE`, `SEARCH`, `*`
+- **Wildcard**: Use `*` for all actions on an entity (e.g., `Posts:*`)
+- **Multiple Scopes**: Add multiple scopes for different entities and actions
+
+Examples:
+- `Posts:read` - Read access to Posts entity
+- `Posts:write` - Write access to Posts entity
+- `Posts:*` - All actions on Posts entity
+- `Comments:read` - Read access to Comments entity
+
+<Callout type='info'>
+    Use the scope selector in the dashboard to search and filter available entities.
+</Callout>
+
+<Callout type='warning'>
+    **Save your API key immediately!** The full API key value is only displayed once during creation. After closing the creation modal, you will not be able to view the key again. The key will be masked (`bsh_********`) in all subsequent views for security purposes.
+</Callout>
+
+## Using Your API Key
+
+Include your API key in the `X-BSH-APIKEY` header for all API requests:
+
+<Tabs items={['CURL', 'JavaScript', 'Python']}>
+    <Tabs.Tab label='CURL'>
+        ```bash
+        curl -H "X-BSH-APIKEY: bsh_********" \
+             https://api.example.com/api/entities
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab label='JavaScript'>
+        ```javascript
+        const response = await fetch('https://api.example.com/api/entities', {
+            headers: {
+                'X-BSH-APIKEY': 'bsh_********',
+                'Content-Type': 'application/json'
+            }
+        });
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab label='Python'>
+        ```python
+        import requests
+        headers = {
+            'X-BSH-APIKEY': 'bsh_********',
+            'Content-Type': 'application/json'
+        }
+        response = requests.get('https://api.example.com/api/entities', headers=headers)
+        ```
+    </Tabs.Tab>
+</Tabs>
+
+<Callout type='info'>
+    If both a JWT token and an API key are present in a request, the JWT token takes precedence. The API key authentication only applies when no JWT authentication is already established.
+</Callout>
+
+## Revoking API Keys
+
+You can revoke an API key at any time from the dashboard. Once revoked, the key will immediately stop working and cannot be restored.
+
+![Revoke API Key](/images/bsh-egnine/security/api-keys/revoke-api-key.png)
+
+<Callout type='warning'>
+    Revoking an API key is permanent and cannot be undone. If you need to use the API again, you must create a new API key.
+</Callout>
+
+Consider revoking API keys in these scenarios:
+
+- **Security breach**: If a key may have been compromised
+- **Key rotation**: When rotating to a new key as part of security best practices
+- **Project completion**: When an integration or project is no longer active
+- **Access change**: When permissions need to be changed (create a new key with updated scopes)
+- **Unused keys**: To clean up keys that are no longer needed

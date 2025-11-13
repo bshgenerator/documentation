@@ -7,4 +7,5 @@ export default {
   'users': 'Users',
   'files': 'Files',
   'mailing': 'Mailing',
+  'api-keys': 'API Keys',
 } satisfies MetaRecord

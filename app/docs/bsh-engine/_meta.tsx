@@ -12,7 +12,7 @@ export default {
   'websocket': <Title title='WebSocket' badge='planned' />,
   'packaging': <Title title='Packaging' badge='planned' />,
   'search': 'BSH Search',
-  'api': 'API Endpointa',
+  'api': 'API Reference',
   'sdk': <Title title='SDK' badge='planned' />,
   'changelog': 'Changelog',
 }
