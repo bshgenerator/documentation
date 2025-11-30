@@ -14,6 +14,6 @@ export default {
   'packaging': <Title title='Packaging' badge='planned' />,
   'search': 'BSH Search',
   'api': 'API Reference',
-  'sdk': <Title title='SDK' badge='planned' />,
+  'sdk': <Title title='SDK' badge='new' />,
   'changelog': 'Changelog',
 }

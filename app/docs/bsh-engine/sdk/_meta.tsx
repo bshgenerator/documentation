@@ -1,9 +1,9 @@
 import type { MetaRecord } from 'nextra';
+import { Title } from '../../../../components/Title';
 
 export default {
   'typescript': {
-    title: 'Typescript',
-    display: 'hidden',
+    title: <Title title='Typescript' badge='new' />
   },
   'java': {
     title: 'Java',
