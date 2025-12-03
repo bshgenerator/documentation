@@ -1,0 +1,56 @@
+---
+title: Post-Interceptors
+---
+
+# Post-Interceptors
+
+<Tabs items={['Docs', 'Types']}>
+  <Tabs.Tab label="Docs">
+  Modify responses after they're received:
+
+  ```typescript
+  bshEngine.postInterceptor(async (response, params) => {
+    // Log responses
+    console.log(`API ${params.api} returned:`, response);
+    
+    // Transform data if needed
+    if (response.data && Array.isArray(response.data)) {
+      response.data = response.data.map(item => ({
+        ...item,
+        processedAt: new Date().toISOString(),
+        processed: true
+      }));
+    }
+    
+    // Add metadata
+    response.meta = {
+      ...response.meta,
+      timestamp: new Date().toISOString(),
+      requestId: params.options.headers?.['X-Request-ID']
+    };
+    
+    return response;
+  });
+  ```
+
+  Post-interceptors receive the response and request parameters, allowing you to transform or enrich the response data before it's returned to your code.
+
+  Common use cases:
+  - Logging responses
+  - Transforming response data
+  - Adding metadata
+  - Caching responses
+  - Updating tokens after refresh
+
+  </Tabs.Tab>
+  <Tabs.Tab label="Types">
+```typescript
+type BshPostInterceptor<T = any> = (response: BshResponse<T>, params?: BshClientFnParams<T>) => Promise<BshResponse<T>>;
+```
+| Option | Description |
+|--------|-------------|
+| `response` | The response data |
+| `params` | The request parameters |
+| `return` | The modified response data |
+  </Tabs.Tab>
+</Tabs>

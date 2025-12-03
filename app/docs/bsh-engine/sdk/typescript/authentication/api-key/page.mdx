@@ -1,0 +1,17 @@
+---
+title: API Key
+---
+
+# API Key Authentication
+
+The simplest way to authenticate is using an API key:
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  apiKey: 'your-api-key'
+});
+```
+
+The API key will be automatically included in all requests as the `X-BSH-APIKEY` header.
+

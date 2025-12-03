@@ -1,0 +1,65 @@
+---
+title: Custom HTTP Client
+---
+
+# Custom HTTP Client
+
+You can provide a custom HTTP client function if you need to use a different HTTP library.<br />
+
+## Default Client Function
+by default, the SDK uses `fetch` to make requests. see the internal implementation [here](https://github.com/bshgenerator/bshengine.sdk.ts/blob/main/src/client/types.ts).
+
+```typescript
+export const defaultClientFn: BshClientFn = async (params) => {
+    return fetch(
+        params.path,
+        {
+            method: params.options.method,
+            body: params.options.requestFormat === 'form' ?
+                params.options.body as BodyInit : params.options.body ?
+                    JSON.stringify(params.options.body) : undefined,
+            headers: params.options.headers,
+        }
+    );
+};
+```
+
+You can use this function as a reference to create your own custom HTTP client function.
+
+## Types
+
+```typescript
+export type BshClientFnParams<T = unknown, R = T> = {
+    path: string,
+    options: {
+        method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH', // The HTTP method
+        responseType?: 'json' | 'blob' | 'text' | 'arrayBuffer', // The response type
+        requestFormat?: 'json' | 'text' | 'form', // The request format
+        body?: T | BshSearch<T> | unknown, // The request body
+        formData?: FormData, // The form data
+        queryParams?: Record<string, string>, // The query parameters
+        headers?: Record<string, string>, // The headers
+    },
+    bshOptions: BshCallbackParams<T, R>,
+    api?: string
+}
+
+export type BshClientFn = <T = unknown>(params: BshClientFnParams<T>) => Promise<Response>;
+```
+
+| Option | Description |
+|--------|-------------|
+| `path` | The URL path of the request | - |
+| `options` | The options of the request | - |
+| `options.method` | The HTTP method | - |
+| `options.responseType` | The response type | - |
+| `options.requestFormat` | The request format | - |
+| `options.body` | The request body | - |
+| `options.formData` | The form data | - |
+| `options.queryParams` | The query parameters | - |
+| `options.headers` | The headers | - |
+| `bshOptions` | The callbacks functions (onSuccess, onError, onDownload) | - |
+| `bshOptions.onSuccess` | The callback function for successful requests | - |
+| `bshOptions.onError` | The callback function for error requests | - |
+| `bshOptions.onDownload` | The callback function for download requests | - |
+| `api` | The API method name | - |

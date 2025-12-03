@@ -1,0 +1,52 @@
+---
+title: Configuration
+---
+
+# Configuration
+
+<Tabs items={['Constructor Options', 'Fluent Configuration']}>
+	<Tabs.Tab label="Constructor Options">
+The `BshEngine` constructor accepts the following options:
+
+```typescript
+interface BshEngineOptions {
+  host?: string;                    // Your BSH Engine instance URL
+  apiKey?: string;                  // API key for authentication
+  jwtToken?: string;                 // JWT access token
+  refreshToken?: string;             // Refresh token for JWT renewal
+  clientFn?: BshClientFn;           // Custom HTTP client function
+  authFn?: BshAuthFn;               // Custom authentication function
+  refreshTokenFn?: BshRefreshTokenFn; // Custom refresh token function
+  postInterceptors?: BshPostInterceptor[]; // Response interceptors
+  preInterceptors?: BshPreInterceptor[];   // Request interceptors
+  errorInterceptors?: BshErrorInterceptor[]; // Error interceptors
+}
+
+const bshEngine = new BshEngine(options);
+```
+
+	</Tabs.Tab>
+	<Tabs.Tab label="Fluent Configuration">
+
+You can also configure the engine using fluent methods:
+
+```typescript
+const bshEngine = new BshEngine({ host: 'https://your-instance.com' })
+  .withClient(customClientFn)
+  .withAuth(async () => ({ type: 'JWT', token: 'your-token' }))
+  .withRefreshToken(async () => 'your-refresh-token')
+  .postInterceptor(async (result, params) => {
+    console.log('Response:', result);
+    return result;
+  })
+  .preInterceptor(async (params) => {
+    console.log('Request:', params);
+    return params;
+  })
+  .errorInterceptor(async (error, response, params) => {
+    console.error('Error:', error);
+    return error;
+  });
+```
+	</Tabs.Tab>
+</Tabs>

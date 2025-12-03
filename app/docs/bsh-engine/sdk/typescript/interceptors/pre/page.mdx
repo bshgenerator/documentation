@@ -1,0 +1,54 @@
+---
+title: Pre-Interceptors
+---
+
+# Pre-Interceptors
+
+<Tabs items={['Docs', 'Types']}>
+  <Tabs.Tab label="Docs">
+  Modify requests before they're sent:
+
+  ```typescript
+  bshEngine.preInterceptor(async (params) => {
+    // Add custom headers
+    params.options.headers = {
+      ...params.options.headers,
+      'X-Custom-Header': 'value',
+      'X-Request-ID': generateRequestId()
+    };
+    
+    // Modify request body if needed
+    if (params.options.body) {
+      // Transform body
+    }
+    
+    // Log request
+    console.log(`Making ${params.options.method} request to ${params.path}`);
+    
+    return params;
+  });
+  ```
+
+  Pre-interceptors receive the request parameters and can modify them before the request is sent. They must return the modified (or original) parameters.
+
+  Common use cases:
+  - Adding authentication headers
+  - Adding request tracking IDs
+  - Logging requests
+  - Transforming request bodies
+  - Adding timestamps
+
+  </Tabs.Tab>
+  <Tabs.Tab label="Types">
+
+```typescript
+type BshPreInterceptor<T = any, R = T> = (params: BshClientFnParams<T, R>) => Promise<BshClientFnParams<T, R>>;
+```
+
+| Option | Description |
+|--------|-------------|
+| `params` | The request parameters |
+| `return` | The modified request parameters |
+
+  </Tabs.Tab>
+</Tabs>

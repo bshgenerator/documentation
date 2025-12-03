@@ -1,0 +1,53 @@
+---
+title: Error Interceptors
+---
+
+# Error Interceptors
+
+<Tabs items={['Docs', 'Types']}>
+  <Tabs.Tab label="Docs">
+  Handle errors globally:
+
+  ```typescript
+  bshEngine.errorInterceptor(async (error, response, params) => {
+    // Log errors
+    console.error('API Error:', {
+      status: error.status,
+      path: error.path,
+      api: params?.api,
+      response: error.response
+    });
+    
+    // Handle specific error codes
+    if (error.status === 401) {
+      // Unauthorized - redirect to login
+      window.location.href = '/login';
+    }
+    
+    if (error.status === 403) {
+      // Forbidden - show message
+      showNotification('You do not have permission to perform this action');
+    }
+
+    return error;
+  });
+  ```
+
+  Error interceptors allow you to handle errors globally. You can:
+  - Log errors to external services
+  - Handle specific HTTP status codes
+  - Transform errors before they're thrown
+
+  </Tabs.Tab>
+  <Tabs.Tab label="Types">
+```typescript
+type BshErrorInterceptor<T = any> = (error: BshError, response?: BshResponse<T>, params?: BshClientFnParams<T>) => Promise<BshError | undefined>;
+```
+| Option | Description |
+|--------|-------------|
+| `error` | The error object |
+| `response` | The response object |
+| `params` | The request parameters |
+| `return` | The modified error object |
+  </Tabs.Tab>
+</Tabs>

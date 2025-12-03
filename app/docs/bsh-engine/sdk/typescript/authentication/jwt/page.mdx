@@ -1,0 +1,18 @@
+---
+title: JWT
+---
+
+# JWT Authentication
+
+For user-based authentication, use JWT tokens:
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  jwtToken: 'access-token',
+  refreshToken: 'refresh-token' // Optional, enables auto-refresh
+});
+```
+
+The JWT token will be automatically included in all requests as the `Authorization: Bearer <token>` header.
+
