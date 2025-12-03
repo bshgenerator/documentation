@@ -8,3 +8,4 @@ node_modules
 .idea
 _pagefind/
 .DS_Store
+temp
