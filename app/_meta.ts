@@ -32,6 +32,10 @@ export default {
       'Ts Validation': {
         title: 'Ts Validation',
         href: '/docs/ts-validation',
+      },
+      'Engine SDK - Typescript': {
+        title: 'Engine SDK - Typescript',
+        href: '/docs/bsh-engine/sdk/typescript',
       }
     }
   },
