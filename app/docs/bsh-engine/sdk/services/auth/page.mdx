@@ -4,4 +4,129 @@ title: Auth Service
 
 # Auth Service
 
-Handles user authentication and account management.
+The Auth Service provides methods for user authentication, account management, and password recovery.
+
+## Methods
+
+### login
+
+Authenticates a user with email and password credentials.
+
+```typescript
+await bshEngine.auth.login({
+  payload: {
+    email: 'user@example.com',
+    password: 'your-password'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The user's email address |
+| `password` | string | yes | The user's password |
+
+---
+
+### register
+
+Registers a new user account.
+
+```typescript
+await bshEngine.auth.register({
+  payload: {
+    email: 'user@example.com',
+    password: 'secure-password',
+    profile: {
+      firstName: 'John',
+      lastName: 'Doe'
+    },
+    roles: ['USER']
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The user's email address |
+| `password` | string | yes | The user's password |
+| `profile` | object | no | User profile data. This object is customizable; define any fields you want to include in a user's profile |
+| `roles` | string[] | yes | Array of role names. Only [public roles](/docs/bsh-engine/security/roles#public-roles) are allowed |
+
+---
+
+### refreshToken
+
+Refreshes an expired access token using a refresh token.
+
+```typescript
+await bshEngine.auth.refreshToken({
+  payload: {
+    refresh: 'your-refresh-token'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `refresh` | string | yes | The refresh token to use for obtaining new access tokens |
+
+---
+
+### forgetPassword
+
+Sends a password reset code to the user's email address.
+
+```typescript
+await bshEngine.auth.forgetPassword({
+  payload: {
+    email: 'user@example.com'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The user's email address where the reset code will be sent |
+
+---
+
+### resetPassword
+
+Resets a user's password using the reset code sent to their email.
+
+```typescript
+await bshEngine.auth.resetPassword({
+  payload: {
+    email: 'user@example.com',
+    code: '123456',
+    newPassword: 'new-secure-password'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The user's email address |
+| `code` | string | yes | The reset code received via email |
+| `newPassword` | string | yes | The new password to set |
+
+---
+
+### activateAccount
+
+Activates a user account using the activation code sent to their email.
+
+```typescript
+await bshEngine.auth.activateAccount({
+  payload: {
+    email: 'user@example.com',
+    code: '123456'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The user's email address |
+| `code` | string | yes | The activation code received via email |

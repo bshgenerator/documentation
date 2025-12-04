@@ -4,20 +4,251 @@ title: Entities Service
 
 # Entities Service
 
-## Available Core Entities
+The Entities Service provides comprehensive CRUD operations for entity management.
+It supports `create`, `update`, `search`, `delete`, `export` operations.
+The entity name can be specified in the service initialization or passed as a parameter to each method.
 
-| Entity | Description |
-|--------|-------------|
-| `BshEntities` | Entity definitions |
-| `BshSchemas` | Schema definitions |
-| `BshTypes` | Type definitions |
-| `BshUsers` | User management |
-| `BshPolicies` | Security policies |
-| `BshRoles` | Role management |
-| `BshFiles` | File management |
-| `BshConfigurations` | Configuration management |
-| `BshEmails` | Email history |
-| `BshEmailTemplates` | Email templates |
-| `BshEventLogs` | Event logs |
-| `BshTriggers` | Trigger definitions |
-| `BshTriggerInstances` | Trigger instances |
+## Initialization
+
+You can initialize the entities service in two ways:
+
+<Tabs items={['Entity specific initialization (recommended)', 'General initialization']}>
+    <Tabs.Tab label="Entity specific initialization (recommended)">
+    this allows to user to use the entities service without passing the entity name to each method.
+
+    ```typescript
+    const bshEngine = new BshEngine({
+        host: 'https://your-instance.com'
+    });
+
+    const productsService = bshEngine.entity('Products');
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab label="General initialization">
+    this will required to pass the entity name to each method.
+
+    ```typescript
+    const bshEngine = new BshEngine({
+        host: 'https://your-instance.com'
+    });
+
+    const entitiesService = bshEngine.entities;
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Methods
+
+### findById
+```typescript
+await entitiesService.findById({
+  entity: 'Products',
+  id: 'product-1'
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `id` | string | yes | The ID of the entity record to retrieve |
+
+
+### create
+```typescript
+await entitiesService.create({
+  entity: 'Products',
+  payload: {
+    id: 'product-1',
+    name: 'Product 1',
+    description: 'Product 1 description',
+    price: 100
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | object | yes | The entity data to create. Fields depend on the entity schema |
+
+
+### createMany
+```typescript
+await entitiesService.createMany({
+  entity: 'Products',
+  payload: [
+    { id: 'product-1', name: 'Product 1', description: 'Product 1 description', price: 100 },
+    { id: 'product-2', name: 'Product 2', description: 'Product 2 description', price: 200 }
+  ]
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | array | yes | Array of entity objects to create. Each object should match the entity schema |
+
+
+### update
+```typescript
+await entitiesService.update({
+  entity: 'Products',
+  payload: {
+    id: 'product-1',
+    name: 'Updated Product 1',
+    description: 'Updated Product 1 description',
+    price: 100
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | object | yes | The entity data to update. Must include all primary keys |
+
+
+### updateMany
+```typescript
+await entitiesService.updateMany({
+  entity: 'Products',
+  payload: [
+    { id: 'product-1', name: 'Updated Product 1', description: 'Updated Product 1 description', price: 100 },
+    { id: 'product-2', name: 'Updated Product 2', description: 'Updated Product 2 description', price: 200 }
+  ]
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | array | yes | Array of entity objects to update. Each object must include all primary keys |
+
+
+### search
+```typescript
+await entitiesService.search({
+  entity: 'Products',
+  payload: {
+    fields: ['id', 'name', 'description', 'price'],
+    filters: [
+      {
+        field: 'name',
+        operator: 'ilike',
+        value: 'Product 1'
+      }
+    ],
+    sort: [
+      {
+        field: 'name',
+        direction: 1
+      }
+    ],
+    pagination: {
+      page: 0,
+      size: 10
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | BshSearch | yes | The search criteria. See [BSH Search](/docs/bsh-engine/search) documentation for details |
+
+
+### delete
+```typescript
+await entitiesService.delete({
+  entity: 'Products',
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'Product 1'
+      }
+    ]
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `payload` | BshSearch | yes | The search criteria to identify records to delete. See [BSH Search](/docs/bsh-engine/search) documentation |
+
+
+### deleteById
+```typescript
+await entitiesService.deleteById({
+  entity: 'Products',
+  id: 'product-1'
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `id` | string | yes | The ID of the entity record to delete |
+
+{/* 
+### columns
+
+```typescript
+await entitiesService.columns({
+  entity: 'Products'
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+*/}
+
+### export
+```typescript
+await entitiesService.export({
+  entity: 'Products',
+  format: 'csv',
+  filename: 'products_export',
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'Product 1'
+      }
+    ]
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `format` | 'csv' \| 'json' \| 'excel' | yes | The export file format |
+| `filename` | string | no | The filename for the export. If not provided, uses a default name with timestamp |
+| `payload` | BshSearch | yes | The search criteria to determine which records to export. See [BSH Search](/docs/bsh-engine/search) documentation |
+
+
+## Core Entities
+
+The `BshEngine` exposes core entities that are part of the core system, you can access them using the `bshEngine.entities.core.<entityName>{:js}` service.
+
+| Entity          | 
+|:---------------:|
+| `BshEntities`   |
+| `BshSchemas`    |
+| `BshTypes`      |
+| `BshUsers`      |
+| `BshPolicies`   |
+| `BshRoles`      |
+| `BshFiles`      |
+| `BshConfigurations` |
+| `BshEmails`     |
+| `BshEmailTemplates` |
+| `BshEventLogs`  |
+| `BshTriggers`   |
+| `BshTriggerInstances` |

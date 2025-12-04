@@ -1,7 +1,6 @@
 import { MetaRecord } from "nextra";
 
 export default {
-    'index': 'Overview',
     'auth': 'Authentication',
     'entities': 'Entities',
     'users': 'Users',
