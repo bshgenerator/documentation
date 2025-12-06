@@ -3,3 +3,40 @@ title: Image Service
 ---
 
 # Image Service
+
+The Image Service provides methods for uploading images to cloud storage with optional metadata and organization.
+
+## Methods
+
+### upload
+
+Uploads an image file to cloud storage with optional namespace, asset ID, and metadata options.
+
+```typescript
+const fileInput = document.querySelector('input[type="file"]');
+const file = fileInput.files[0];
+
+await bshEngine.image.upload({
+  payload: {
+    file: file,
+    namespace: 'products',
+    assetId: 'product-123',
+    options: {
+      tags: ['product', 'main'],
+      context: {
+        alt: 'Product image',
+        category: 'electronics'
+      }
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `file` | File | yes | The image file to upload |
+| `namespace` | string | no | Optional namespace for organizing images (folder name) |
+| `assetId` | string | no | Optional asset ID for the image (file name) |
+| `options` | object | no | Optional upload options object (customizable) |
+| `options.tags` | string[] | no | Array of tags for the image |
+| `options.context` | object | no | Custom context object with additional metadata (e.g., alt text, category) |

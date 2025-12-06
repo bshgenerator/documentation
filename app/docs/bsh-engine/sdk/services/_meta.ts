@@ -8,6 +8,12 @@ export default {
     'mailing': 'Mailing',
     'api-key': 'API Key',
     'settings': 'Settings',
-    'caching': 'Caching',
-    'utils': 'Utils',
+    'caching': {
+        title: 'Caching',
+        display: 'hidden',
+    },
+    'utils': {
+        title: 'Utils',
+        display: 'hidden',
+    },
 } satisfies MetaRecord;

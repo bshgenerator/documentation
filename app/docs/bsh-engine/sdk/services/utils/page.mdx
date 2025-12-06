@@ -3,3 +3,23 @@ title: Utils Service
 ---
 
 # Utils Service
+
+The Utils Service provides utility methods for retrieving available trigger plugins and actions that can be used when configuring [triggers](/docs/bsh-engine/triggers).
+
+## Methods
+
+### triggerPlugins
+
+Retrieves a list of available trigger plugins that can be used when configuring triggers.
+
+```typescript
+await bshEngine.utils.triggerPlugins();
+```
+
+### triggerActions
+
+Retrieves a list of available trigger actions that can be executed when triggers fire.
+
+```typescript
+await bshEngine.utils.triggerActions();
+```
