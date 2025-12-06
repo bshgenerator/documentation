@@ -4,4 +4,162 @@ title: API Key Service
 
 # API Key Service
 
-Manages API keys for your application.
+The API Key Service provides methods for creating, managing, and revoking API keys for programmatic access to the BSH Engine API.
+
+## Methods
+
+### create
+
+Creates a new API key for programmatic access. Returns the full API key value (only shown once).
+
+<Tabs items={['Personal API Key', 'Machine API Key']}>
+    <Tabs.Tab label='Personal API Key'>
+    ```typescript
+    await bshEngine.apiKeys.create({
+      payload: {
+        name: 'My Personal API Key',
+        type: 'PERSONAL',
+        duration: 30,
+        description: 'API key for personal scripts'
+      }
+    });
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab label='Machine API Key'>
+    ```typescript
+    await bshEngine.apiKeys.create({
+      payload: {
+        name: 'My Machine API Key',
+        type: 'MACHINE',
+        duration: 30,
+        description: 'API key for production integration',
+        scopes: [
+          'BshUsers:read',
+          'BshUsers:update',
+          'BshEntities:read'
+        ]
+      }
+    });
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `name` | string | yes | A descriptive name for the API key |
+| `type` | `PERSONAL`, `MACHINE` | no | The type of API key (default: `PERSONAL`) |
+| `duration` | number | yes | Expiration period in days (must be greater than 0) |
+| `description` | string | no | Additional notes about the key's purpose |
+| `scopes` | string[] | yes (for `MACHINE`) | Entity and action permissions in format `EntityName:ACTION` (e.g., `BshUsers:read`, `BshEntities:*`) |
+
+### details
+
+Retrieves detailed information about an API key by its ID.
+
+```typescript
+await bshEngine.apiKeys.details({
+  id: 123
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | number | yes | The unique identifier of the API key |
+
+### revoke
+
+Immediately invalidates an API key, preventing any further use.
+
+```typescript
+await bshEngine.apiKeys.revoke({
+  id: 123
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | number | yes | The unique identifier of the API key to revoke |
+
+### getById
+
+Retrieves an API key by its ID.
+
+```typescript
+await bshEngine.apiKeys.getById({
+  id: 123
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | number | yes | The unique identifier of the API key to retrieve |
+
+### search
+
+Searches for API keys using the [BSH Search](/docs/bsh-engine/search) object. Supports filtering, sorting, pagination, and grouping.
+
+```typescript
+await bshEngine.apiKeys.search({
+  payload: {
+    fields: ['id', 'name', 'type', 'status'],
+    filters: [
+      {
+        field: 'type',
+        operator: 'eq',
+        value: 'MACHINE'
+      }
+    ],
+    sort: [
+      {
+        field: 'createdAt',
+        direction: -1
+      }
+    ],
+    pagination: {
+      page: 0,
+      size: 10
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `payload` | BshSearch | yes | The search criteria. See [BSH Search](/docs/bsh-engine/search) documentation for details |
+
+### list
+
+Lists API keys with optional query parameters for pagination, sorting, and filtering.
+
+```typescript
+await bshEngine.apiKeys.list({
+  queryParams: {
+    page: '0',
+    size: '10',
+    sort: 'createdAt:desc',
+    filter: 'type:eq:MACHINE'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `queryParams` | object | no | Query parameters for listing API keys |
+| `queryParams.page` | string | no | The page number (default: 0) |
+| `queryParams.size` | string | no | The number of items per page (default: 10) |
+| `queryParams.sort` | string | no | Sort by field and direction (format: `field:direction`) |
+| `queryParams.filter` | string | no | Filter conditions (format: `field:operator:value`, comma-separated for multiple filters) |
+
+### deleteById
+
+Deletes an API key by its ID.
+
+```typescript
+await bshEngine.apiKeys.deleteById({
+  id: 123
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | number | yes | The unique identifier of the API key to delete |
