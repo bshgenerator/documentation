@@ -17,13 +17,26 @@ interface BshEngineOptions {
   clientFn?: BshClientFn;           // Custom HTTP client function
   authFn?: BshAuthFn;               // Custom authentication function
   refreshTokenFn?: BshRefreshTokenFn; // Custom refresh token function
-  postInterceptors?: BshPostInterceptor[]; // Response interceptors
   preInterceptors?: BshPreInterceptor[];   // Request interceptors
+  postInterceptors?: BshPostInterceptor[]; // Response interceptors
   errorInterceptors?: BshErrorInterceptor[]; // Error interceptors
 }
 
 const bshEngine = new BshEngine(options);
 ```
+
+| Option | Description | Reference |
+|--------|-------------|---------|
+| `host` | The URL of the BSH Engine instance |
+| `apiKey` | The API key for authentication | [API Key Authentication](/docs/bsh-engine/sdk/authentication/api-key) |
+| `jwtToken` | The JWT access token | [JWT Authentication](/docs/bsh-engine/sdk/authentication/jwt) |
+| `refreshToken` | The refresh token for JWT renewal | [Auto Refresh](/docs/bsh-engine/sdk/authentication/auto-refresh) |
+| `clientFn` | The custom HTTP client function | [Custom HTTP Client](/docs/bsh-engine/sdk/custom-http-client) |
+| `authFn` | The custom authentication function | [Custom Authentication](/docs/bsh-engine/sdk/authentication/custom) |
+| `refreshTokenFn` | The custom refresh token function | [Auto Refresh](/docs/bsh-engine/sdk/authentication/auto-refresh) |
+| `preInterceptors` | The request interceptors | [Pre-Interceptors](/docs/bsh-engine/sdk/interceptors/pre) |
+| `postInterceptors` | The response interceptors | [Post-Interceptors](/docs/bsh-engine/sdk/interceptors/post) |
+| `errorInterceptors` | The error interceptors | [Error Interceptors](/docs/bsh-engine/sdk/interceptors/error) |
 
 	</Tabs.Tab>
 	<Tabs.Tab label="Fluent Configuration">
@@ -35,9 +48,9 @@ const bshEngine = new BshEngine({ host: 'https://your-instance.com' })
   .withClient(customClientFn)
   .withAuth(async () => ({ type: 'JWT', token: 'your-token' }))
   .withRefreshToken(async () => 'your-refresh-token')
-  .postInterceptor(async (result, params) => {
-    console.log('Response:', result);
-    return result;
+  .postInterceptor(async (response, params) => {
+    console.log('Response:', response);
+    return response;
   })
   .preInterceptor(async (params) => {
     console.log('Request:', params);

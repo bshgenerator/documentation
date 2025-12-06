@@ -49,7 +49,7 @@ await entitiesService.findById({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `id` | string | yes | The ID of the entity record to retrieve |
 
 
@@ -68,7 +68,7 @@ await entitiesService.create({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | object | yes | The entity data to create. Fields depend on the entity schema |
 
 
@@ -85,7 +85,7 @@ await entitiesService.createMany({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | array | yes | Array of entity objects to create. Each object should match the entity schema |
 
 
@@ -104,7 +104,7 @@ await entitiesService.update({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | object | yes | The entity data to update. Must include all primary keys |
 
 
@@ -121,7 +121,7 @@ await entitiesService.updateMany({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | array | yes | Array of entity objects to update. Each object must include all primary keys |
 
 
@@ -154,7 +154,7 @@ await entitiesService.search({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | BshSearch | yes | The search criteria. See [BSH Search](/docs/bsh-engine/search) documentation for details |
 
 
@@ -176,7 +176,7 @@ await entitiesService.delete({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | BshSearch | yes | The search criteria to identify records to delete. See [BSH Search](/docs/bsh-engine/search) documentation |
 
 
@@ -190,7 +190,7 @@ await entitiesService.deleteById({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `id` | string | yes | The ID of the entity record to delete |
 
 {/* 
@@ -204,7 +204,7 @@ await entitiesService.columns({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 */}
 
 ### export
@@ -227,8 +227,8 @@ await entitiesService.export({
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `entity` | string | no | The entity name. If not provided, uses the entity from constructor |
-| `format` | 'csv' \| 'json' \| 'excel' | yes | The export file format |
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
+| `format` | `csv`,`json`,`excel` | yes | The export file format |
 | `filename` | string | no | The filename for the export. If not provided, uses a default name with timestamp |
 | `payload` | BshSearch | yes | The search criteria to determine which records to export. See [BSH Search](/docs/bsh-engine/search) documentation |
 
@@ -252,3 +252,17 @@ The `BshEngine` exposes core entities that are part of the core system, you can 
 | `BshEventLogs`  |
 | `BshTriggers`   |
 | `BshTriggerInstances` |
+
+```ts
+await bshEngine.entities.core.BshEntities.findById({
+  id: 'Entity-Id'
+});
+```
+```ts
+await bshEngine.entities.core.BshRoles.create({
+  payload: {
+    name: 'Role Name',
+    description: 'Role Description'
+  }
+});
+```

@@ -30,14 +30,6 @@ title: Pre-Interceptors
   ```
 
   Pre-interceptors receive the request parameters and can modify them before the request is sent. They must return the modified (or original) parameters.
-
-  Common use cases:
-  - Adding authentication headers
-  - Adding request tracking IDs
-  - Logging requests
-  - Transforming request bodies
-  - Adding timestamps
-
   </Tabs.Tab>
   <Tabs.Tab label="Types">
 
@@ -47,7 +39,7 @@ type BshPreInterceptor<T = any, R = T> = (params: BshClientFnParams<T, R>) => Pr
 
 | Option | Description |
 |--------|-------------|
-| `params` | The request parameters |
+| `params` | The request parameters [type](/docs/bsh-engine/sdk/custom-http-client#types) |
 | `return` | The modified request parameters |
 
   </Tabs.Tab>
