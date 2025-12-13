@@ -150,6 +150,26 @@ await bshEngine.apiKeys.list({
 | `queryParams.sort` | string | no | Sort by field and direction (format: `field:direction`) |
 | `queryParams.filter` | string | no | Filter conditions (format: `field:operator:value`, comma-separated for multiple filters) |
 
+### count
+
+```typescript
+// Count all user's API keys
+await bshEngine.apiKeys.count({});
+
+// Count filtered user's API keys
+await bshEngine.apiKeys.count({
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'ApiKey 1'
+      }
+    ]
+  }
+});
+```
+
 ### deleteById
 
 Deletes an API key by its ID.

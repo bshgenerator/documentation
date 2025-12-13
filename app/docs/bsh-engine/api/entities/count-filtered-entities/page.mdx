@@ -1,0 +1,55 @@
+---
+title: Count Filtered Entities
+---
+
+import { Callout } from 'nextra/components';
+
+# Count Filtered Entities
+
+Get the count of entities matching specific filters. This endpoint uses the [BSH Search](/docs/bsh-engine/search) object as body to apply filters before counting.
+
+```bash
+POST /api/entities/:entityName/count
+```
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| entityName | string | The name of the entity to count |
+
+## Request Body
+
+<Callout type='info'>
+  The request body uses the [BSH Search](/docs/bsh-engine/search) object format. Only the `query` field is required for filtering.
+</Callout>
+
+```json
+{
+  "entity": "EntityName",
+  "filters": [
+    {
+      "field": "status",
+      "operator": "eq",
+      "value": "active"
+    }
+  ]
+}
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "count": 25
+    }
+  ],
+  "status": "OK",   
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+

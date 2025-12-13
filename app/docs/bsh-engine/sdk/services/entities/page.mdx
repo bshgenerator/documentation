@@ -157,6 +157,32 @@ await entitiesService.search({
 | `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
 | `payload` | BshSearch | yes | The search criteria. See [BSH Search](/docs/bsh-engine/search) documentation for details |
 
+### count
+```typescript
+// Count all entities
+await entitiesService.count({
+  entity: 'Products'
+});
+
+// Count filtered entities
+await entitiesService.count({
+  entity: 'Products',
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'ApiKey 1'
+      }
+    ]
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `entity` | string | yes, if not provided in initialization | The entity name. If not provided, uses the entity from constructor |
+| `payload` | object | yes | The search criteria to count the entities. See [BSH Search](/docs/bsh-engine/search) documentation |
 
 ### delete
 ```typescript

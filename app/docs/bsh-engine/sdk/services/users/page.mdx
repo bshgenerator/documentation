@@ -185,6 +185,25 @@ await bshEngine.users.update({
 |----------|------|----------|-------------|
 | `payload` | object | yes | Partial user object containing the fields to update. Must include `userId` |
 
+### count
+```typescript
+// Count all users
+await bshEngine.users.count({});
+
+// Count filtered entities
+await bshEngine.users.count({
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'ApiKey 1'
+      }
+    ]
+  }
+});
+```
+
 ### deleteById
 
 Deletes a user by their ID.
