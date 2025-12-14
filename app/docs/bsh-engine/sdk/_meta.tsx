@@ -1,16 +1,10 @@
 import type { MetaRecord } from 'nextra';
 
 export default {
-  'typescript': {
-    title: 'Typescript',
-    display: 'hidden',
-  },
-  'java': {
-    title: 'Java',
-    display: 'hidden',
-  },
-  'python': {
-    title: 'Python',
-    display: 'hidden',
-  },
+    'quick-start': 'Quick Start',
+    'configuration': 'Configuration',
+    'custom-http-client': 'Custom HTTP Client',
+    'authentication': 'Authentication',
+    'services': 'Services',
+    'interceptors': 'Interceptors',
 } satisfies MetaRecord;

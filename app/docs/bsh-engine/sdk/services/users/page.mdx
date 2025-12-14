@@ -1,0 +1,219 @@
+---
+title: User Service
+---
+
+# User Service
+
+The User Service provides methods for user management, profile updates, and user CRUD operations.
+
+## Methods
+
+### me
+
+Retrieves the current authenticated user's profile, this endpoint uses the JWT token to identify the user.
+
+```typescript
+await bshEngine.users.me();
+```
+
+### init
+
+Initializes a new user account with profile data.
+
+```typescript
+await bshEngine.users.init({
+  payload: {
+    email: 'user@example.com',
+    password: null,
+    roles: ['DEV_USER'],
+    profile: {
+      firstName: 'John',
+      lastName: 'Doe'
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `email` | string | yes | The email address of the user |
+| `password` | string | no | The password of the user. If null, the user will need to set it later |
+| `roles` | string[] | yes | The roles assigned to the user |
+| `profile` | object | yes | User profile data. This object is customizable; define any fields you want to include in a user's profile |
+
+### updateProfile
+
+Updates the current user's profile information.
+
+```typescript
+await bshEngine.users.updateProfile({
+  payload: {
+    firstName: 'Jane',
+    lastName: 'Smith',
+    phone: '+1234567890'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `payload` | object | yes | Partial profile object containing the fields to update. Fields depend on your profile schema |
+
+### updatePicture
+
+Uploads and updates the current user's profile picture.
+
+```typescript
+const fileInput = document.querySelector('input[type="file"]');
+const file = fileInput.files[0];
+
+await bshEngine.users.updatePicture({
+  payload: file
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `payload` | File | yes | The image file to upload as the profile picture |
+
+### updatePassword
+
+Updates the current user's password.
+
+```typescript
+await bshEngine.users.updatePassword({
+  payload: {
+    currentPassword: 'old-password',
+    newPassword: 'new-secure-password'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `currentPassword` | string | yes | The user's current password |
+| `newPassword` | string | yes | The new password to set |
+
+### getById
+
+Retrieves a user by their ID.
+
+```typescript
+await bshEngine.users.getById({
+  id: 'user-123'
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | string | yes | The ID of the user to retrieve |
+
+### search
+
+Searches for users using the [BSH Search](/docs/bsh-engine/search) object. Supports filtering, sorting, pagination, and grouping.
+
+```typescript
+await bshEngine.users.search({
+  payload: {
+    fields: ['userId', 'email', 'profile'],
+    filters: [
+      {
+        field: 'email',
+        operator: 'ilike',
+        value: 'john'
+      }
+    ],
+    sort: [
+      {
+        field: 'email',
+        direction: 1
+      }
+    ],
+    pagination: {
+      page: 0,
+      size: 10
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `payload` | BshSearch | yes | The search criteria. See [BSH Search](/docs/bsh-engine/search) documentation for details |
+
+### list
+
+Lists users with optional query parameters for pagination, sorting, and filtering.
+
+```typescript
+await bshEngine.users.list({
+  queryParams: {
+    page: '0',
+    size: '10',
+    sort: 'email:asc',
+    filter: 'status:eq:active'
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `queryParams` | object | no | Query parameters for listing users |
+| `queryParams.page` | string | no | The page number (default: 0) |
+| `queryParams.size` | string | no | The number of items per page (default: 10) |
+| `queryParams.sort` | string | no | Sort by field and direction (format: `field:direction`) |
+| `queryParams.filter` | string | no | Filter conditions (format: `field:operator:value`, comma-separated for multiple filters) |
+
+### update
+
+Updates a user's information. Requires `userId` in the payload.
+
+```typescript
+await bshEngine.users.update({
+  payload: {
+    userId: 'user-123',
+    email: 'updated@example.com',
+    profile: {
+      firstName: 'Updated',
+      lastName: 'Name'
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `payload` | object | yes | Partial user object containing the fields to update. Must include `userId` |
+
+### count
+```typescript
+// Count all users
+await bshEngine.users.count({});
+
+// Count filtered entities
+await bshEngine.users.count({
+  payload: {
+    filters: [
+      {
+        field: 'name',
+        operator: 'eq',
+        value: 'ApiKey 1'
+      }
+    ]
+  }
+});
+```
+
+### deleteById
+
+Deletes a user by their ID.
+
+```typescript
+await bshEngine.users.deleteById({
+  id: 'user-123'
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | string | yes | The ID of the user to delete |

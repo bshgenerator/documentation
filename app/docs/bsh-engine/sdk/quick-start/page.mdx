@@ -1,0 +1,51 @@
+---
+title: Quick Start
+---
+
+# Quick Start
+
+## Installation
+
+```sh npm2yarn
+npm install @bshsolutions/sdk
+```
+
+## Basic Setup
+
+```typescript
+import { BshEngine } from '@bshsolutions/sdk';
+
+// Initialize with host URL
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com'
+});
+```
+
+## With API Key Authentication
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  apiKey: 'your-api-key-here'
+});
+```
+
+## With JWT Authentication
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  jwtToken: 'your-jwt-token-here',
+  refreshToken: 'your-refresh-token-here' // Optional, for auto-refresh
+});
+```
+
+## Usage
+
+```typescript
+const response = await bshEngine.entities.findById({
+	entity: 'BshEntities',
+	id: 'BshEntities'
+});
+console.log(response);
+```

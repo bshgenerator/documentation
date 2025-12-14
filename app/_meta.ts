@@ -32,6 +32,10 @@ export default {
       'Ts Validation': {
         title: 'Ts Validation',
         href: '/docs/ts-validation',
+      },
+      'Engine SDK': {
+        title: 'Engine SDK',
+        href: '/docs/bsh-engine/sdk',
       }
     }
   },

@@ -1,0 +1,29 @@
+---
+title: Services Overview
+asIndexPage: true
+---
+
+# Services Overview
+
+By creating an instance of `BshEngine`, you gain access to a comprehensive suite of services designed to interact seamlessly with your BSH Engine instance.
+Each service enables you to perform specific operations - such as authentication, entity management, user administration and more - through clear and intuitive SDK methods.
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com'
+})
+```
+
+## Services
+
+<Cards>
+    <Cards.Card arrow={true} title="Authentication" href="/docs/bsh-engine/sdk/services/auth"/>
+    <Cards.Card arrow={true} title="Entities" href="/docs/bsh-engine/sdk/services/entities"/>
+    <Cards.Card arrow={true} title="Users" href="/docs/bsh-engine/sdk/services/users"/>
+    <Cards.Card arrow={true} title="Image" href="/docs/bsh-engine/sdk/services/image"/>
+    <Cards.Card arrow={true} title="Mailing" href="/docs/bsh-engine/sdk/services/mailing"/>
+    <Cards.Card arrow={true} title="API Keys" href="/docs/bsh-engine/sdk/services/api-keys"/>
+    <Cards.Card arrow={true} title="Settings" href="/docs/bsh-engine/sdk/services/settings"/>
+    <Cards.Card arrow={true} title="Caching" href="/docs/bsh-engine/sdk/services/caching"/>
+    <Cards.Card arrow={true} title="Utils" href="/docs/bsh-engine/sdk/services/utils"/>
+</Cards>

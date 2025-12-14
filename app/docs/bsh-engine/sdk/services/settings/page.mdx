@@ -1,0 +1,44 @@
+---
+title: Settings Service
+---
+
+# Settings Service
+
+The Settings Service provides methods for retrieving and updating application configuration settings.
+
+## Methods
+
+### load
+
+Retrieves the current application configuration settings.
+
+```typescript
+await bshEngine.settings.load();
+```
+
+### update
+
+Updates application configuration settings.
+
+```typescript
+await bshEngine.settings.update({
+  payload: {
+    api: {
+      auth: {
+        enableRegister: true
+      },
+      response: {
+        showSql: false
+      }
+    }
+  }
+});
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `api` | object | yes | API configuration settings |
+| `api.auth` | object | yes | Authentication configuration |
+| `api.auth.enableRegister` | boolean | yes | Whether to enable the register feature |
+| `api.response` | object | yes | Response configuration |
+| `api.response.showSql` | boolean | yes | Whether to show SQL queries in responses |

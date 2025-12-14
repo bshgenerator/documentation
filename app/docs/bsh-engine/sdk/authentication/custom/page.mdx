@@ -1,0 +1,37 @@
+---
+title: Custom Auth
+---
+
+# Custom Authentication Function
+
+<Tabs items={['Docs', 'Types']}>
+  <Tabs.Tab label="Docs">
+For more control, use a custom authentication function:
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  authFn: async () => {
+    // Get token from wherever you store it
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+    
+    return { type: 'JWT', token: token};
+  }
+})
+```
+
+This allows you to dynamically retrieve tokens from any storage mechanism (localStorage, sessionStorage, cookies, secure storage, etc.).
+  </Tabs.Tab>
+  <Tabs.Tab label="Types">
+```typescript
+export type AuthToken = {
+    type: 'JWT' | 'APIKEY';
+    token: string
+}
+```
+```typescript
+export type BshAuthFn = () => Promise<AuthToken | undefined | null>;
+```
+  </Tabs.Tab>
+</Tabs>

@@ -1,0 +1,74 @@
+---
+title: Auto Refresh
+---
+
+# Auto Token Refresh
+
+<Tabs items={['Docs', 'Types']}>
+  <Tabs.Tab label="Docs">
+
+## Enable auto refresh
+
+When you provide a `refreshToken` or `refreshTokenFn`, the SDK automatically refreshes expired JWT tokens:
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+  jwtToken: 'initial-access-token',
+  refreshToken: 'refresh-token'
+})
+```
+
+```typescript
+const bshEngine = new BshEngine({
+  host: 'https://your-instance.com',
+})
+  .withAuth(async () => {
+    // Get token from wherever you store it
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+    return { type: 'JWT', token: token};
+  })
+  .withRefreshToken(async () => {
+    // Get refresh token from storage
+    return localStorage.getItem('refreshToken') || null;
+  });
+```
+
+The SDK will:
+1. Check if the JWT token is expired before each request
+2. Automatically call the refresh endpoint if expired
+3. Update the token for subsequent requests
+
+This ensures your requests always use a valid token without manual intervention.
+
+## Update storage after refresh
+
+To update the token storage after a refresh, you can use the following post interceptor:
+
+```typescript
+async (response) => {
+  if (response.api == 'auth.refreshToken') { // check it refreshToken function was called
+    // your code to update the token storage
+    localStorage.setItem('accessToken', response.data[0].access);
+    localStorage.setItem('refreshToken', response.data[0].refresh);
+  }
+  return response;
+}
+```
+  </Tabs.Tab>
+  <Tabs.Tab label="Types">
+```typescript
+type AuthTokens = {
+  access: string;
+  refresh: string;
+}
+```
+```typescript
+export type BshAuthFn = () => Promise<AuthToken | undefined | null>;
+```
+```typescript
+export type BshRefreshTokenFn = () => Promise<string | undefined | null>;
+```
+  </Tabs.Tab>
+</Tabs>

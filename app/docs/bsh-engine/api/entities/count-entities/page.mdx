@@ -1,0 +1,34 @@
+---
+title: Count Entities
+---
+
+# Count Entities
+
+Get the total count of entities.
+
+```bash
+GET /api/entities/:entityName/count
+```
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| entityName | string | The name of the entity to count |
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "count": 42
+    }
+  ],
+  "status": "OK",
+  "code": 200,
+  "timestamp": 1234567890,
+  "meta": {}
+}
+```
+

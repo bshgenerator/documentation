@@ -11,6 +11,8 @@ export default {
   'insert-entities-batch': <EndpointTitle method='POST' title='Batch Insert'/>,
   'update-entities-batch': <EndpointTitle method='PUT' title='Batch Update'/>,
   'delete-entities-batch': <EndpointTitle method='POST' title='Batch Delete'/>,
+  'count-entities': <EndpointTitle method='GET' title='Count' badge='new'/>,
+  'count-filtered-entities': <EndpointTitle method='POST' title='Count Filtered' badge='new'/>,
   'export-entities': <EndpointTitle method='POST' title='Export'/>,
   'import-entities': <EndpointTitle method='POST' title='Import' badge='planned'/>,
 } satisfies MetaRecord;

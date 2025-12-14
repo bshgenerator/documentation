@@ -23,9 +23,9 @@ const footer = <Footer>
   <div >
     <span>
       © {new Date().getFullYear()} | Licensed under MIT. Crafted with care by
-      <a href="https://bsh.bousalih.com" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
+      <a href="https://docs.bousalih.com" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
         BSH Solutions</a>. Founded by
-      <a href="https://www.linkedin.com/in/bousalih-hamza/" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
+      <a href="https://hamza.bousalih.com" target="_blank" style={{ color: '#0077b5', marginLeft: '0.5rem' }}>
         Bousalih Hamza</a>.
     </span>
   </div>

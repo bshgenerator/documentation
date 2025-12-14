@@ -1,6 +1,8 @@
+import { Title } from "../../../../components/Title";
+
 export default {
   'users': 'Users',
   'roles': 'Roles',
   'policies': 'Policies',
-  'api-keys': 'API Keys',
+  'api-keys': <Title title='API Keys' badge='new' />,
 }
