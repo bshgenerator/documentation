@@ -12,7 +12,11 @@ export const metadata = {
   }
 }
 
-const banner = null
+const banner = <Banner storageKey="2.0-release">
+<a href="/docs/bsh-engine/changelog#002">
+  🎉 New release with new features and improvements! V0.0.2 Release →
+</a>
+</Banner>
 
 const navbar = (
   <Navbar
