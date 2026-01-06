@@ -1,0 +1,58 @@
+---
+title: Config File
+---
+
+# Config File
+
+The `bshplugin.json` file is the root plugin configuration file that defines plugin identity, metadata, and variables.
+
+## Location
+
+- **Path**: Root the plugin directory
+
+## Structure
+
+```json
+{
+  "version": "1.0.0",           // Plugin version (semantic versioning)
+  "id": "string",              // Unique plugin identifier
+  "name": "string",    // Human-readable plugin name
+  "description": "string",  // Plugin description
+  "author": "string",   // Plugin author
+  "license": "MIT",             // License type
+  "variables": {                 // Plugin-level variables (can be referenced in content files)
+    // Key-value pairs for variable substitution
+  },
+  "image": "data:image/jpeg;base64,..."  // Optional: Base64 encoded plugin icon/image
+}
+```
+
+## Usage
+
+1. **Plugin discovery**: Identifies a directory as a plugin
+2. **Plugin registration**: Stored in `BshPlugins` entity
+3. **Variable resolution**: Variables available via `${config.*}` in [content files](/docs/bsh-engine/packaging/plugins/content-files)
+
+## Variable Resolution
+
+Variables from `bshplugin.json` can be referenced in content JSON files using:
+- `${config.variableName}` - References variables from plugin config
+- `${manifest.*}` - References [manifest](/docs/bsh-engine/packaging/plugins/manifest-files) properties
+
+**Example:**
+
+```json
+// bshplugin.json
+{
+  "variables": {
+    "author": "someone"
+  }
+}
+
+// Content file can use:
+{
+  ...
+  "author": "${config.author}"
+  ...
+}
+```
