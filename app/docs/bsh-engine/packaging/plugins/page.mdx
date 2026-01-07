@@ -1,0 +1,34 @@
+---
+title: Plugins
+asIndexPage: true
+---
+
+# Plugins
+
+Plugins are a way to extend the functionality of the Engine. They allow you to add new features to the Engine without having to modify the core code.
+
+## Creating a Plugin
+
+There is two ways to create a new plugin:
+1. Use the [`bshg plugins generate`](/docs/bsh-engine/cli/plugins#generate) command to create a new plugin and generate the necessary files.
+2. Use the GitHub template to create a new plugin repository: [bshengine.plugin.template](https://github.com/bshgenerator/bshengine.plugin.template)
+
+## Plugin Structure
+
+The BSH Engine plugin system uses three file types:
+
+1. **[Config file](/docs/bsh-engine/packaging/plugins/config-file)** - `bshplugin.json` - Root plugin configuration
+2. **[Manifest files](/docs/bsh-engine/packaging/plugins/manifest-files)** - `__manifest__.json` - Component directory manifest
+3. **[Content files](/docs/bsh-engine/packaging/plugins/content-files)** - `dir/**/*.json` - Content JSON files
+
+Each file type serves a specific purpose in the plugin system:
+
+- **Config file**: Defines plugin identity, metadata, and variables
+- **Manifest files**: Defines component metadata, dependencies, and loading order
+- **Content files**: Contains data/definitions installed into target entities
+
+Learn more about each file type in their respective documentation pages.
+
+## Plugin Installation
+
+To install a plugin, you can use the `plugins install` command from the [CLI](/docs/bsh-engine/cli/plugins#install).

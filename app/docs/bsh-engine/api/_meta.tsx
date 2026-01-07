@@ -1,5 +1,4 @@
 import type { MetaRecord } from 'nextra';
-import { Title } from '../../../../components';
 
 export default {
   'persistence-id': 'Persistence ID',
@@ -8,6 +7,6 @@ export default {
   'users': 'Users',
   'files': 'Files',
   'mailing': 'Mailing',
-  'api-keys':  <Title title='API Keys' badge='new' />,
-  'settings':  <Title title='Settings' badge='new' />,
+  'api-keys': 'API Keys',
+  'settings': 'Settings',
 } satisfies MetaRecord

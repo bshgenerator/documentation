@@ -1,0 +1,66 @@
+---
+title: Manifest Files
+---
+
+# Manifest Files
+
+The `__manifest__.json` file defines component metadata, dependencies, and loading order for a component directory.
+
+## Location
+
+- **Path**: Inside each component directory (e.g., `BshTypes/`, `BshSchemas/`, etc.)
+
+## Structure
+
+```json
+{
+  "target": "BshTypes",                    // Required: Target entity name (where content will be inserted)
+  "dependencies": [                         // Optional: List of component dependencies
+    "BshEntities"
+  ],
+  "tempSchema": "BshSchemas.json"          // Optional: Temporary schema file for self-referencing components
+}
+```
+
+## Properties
+
+| Property | Type | Description | Required | Default |
+|----------|------|-------------|----------|---------|
+| `target` | String | Entity name where content files in this directory will be installed | yes | ~ |
+| `dependencies` | Array of Strings | Component names that must be installed before this component | no | ~ |
+| `tempSchema` | String | Filename of a temporary schema used for self-referencing components | no | ~ |
+
+## Dependency Resolution
+
+The system builds a dependency graph and installs in order:
+
+```
+Example Dependency Chain:
+BshEntities (no dependencies)
+    ↓
+BshTypes (depends on: BshEntities)
+    ↓
+BshSchemas (depends on: BshEntities, BshTypes)
+    ↓
+BshUsers (depends on: BshEntities, BshSchemas, BshTypes)
+```
+
+## Self-Referencing Components
+
+Some components reference their own schema:
+
+**Example: `BshSchemas/__manifest__.json`**
+
+```json
+{
+  "target": "BshSchemas",
+  "dependencies": ["BshEntities", "BshTypes"],
+  "tempSchema": "BshSchemas.json"  // Schema for BshSchemas entity itself
+}
+```
+
+**How it works:**
+
+1. `tempSchema` points to a schema file in the same directory
+2. The schema is temporarily loaded to define the entity structure
+3. After installation, the entity can store its own records

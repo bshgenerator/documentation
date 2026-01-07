@@ -6,35 +6,45 @@ title: Changelog
 
 Track all notable changes to BSH Engine.
 
-## [0.0.2]
-**Released on: 2025-12-14**
+## 0.0.3 - .. Jan 2026
 
-**Features:**
- - Introduce the API Keys system ([API](/docs/bsh-engine/api/api-keys) / [Form](/docs/bsh-engine/security/api-keys))
- - Add User Update ([API](/docs/bsh-engine/api/users/update-profile) / [Form](/docs/bsh-engine/security/users#update-user))
- - Implement Register ([API](/docs/bsh-engine/api/authentication/register) / [Form](/docs/bsh-engine/auth/register))
- - Introduce Engine Settings ([API](/docs/bsh-engine/api/settings) / [Form](/docs/bsh-engine/settings))
- - Powered GET requests with search by [query parameters](/docs/bsh-engine/api/entities/search-entities-by-query)
- - Add count endpoints to the API ([API 1](/docs/bsh-engine/api/entities/count-entities) / [API 2](/docs/bsh-engine/api/entities/count-filtered-entities))
- - Implement TS SDK for quick access to Engine APIs ([SDK](/docs/bsh-engine/sdk))
+**Added:**
+- Enhanced schema validation with improved error handling and validation rules.
+- Additional schema types for more flexible data modeling [Types Docs](/docs/bsh-engine/modeling/types#core-types).
+- Contextual request handling system for improved security and request tracking.
+- Update Dashboard to display plugins and allow filtering by plugins.
+- Build CLI tool for easier working with the engine [CLI Docs](/docs/bsh-engine/cli).
+- Allow creating and installing plugins using the CLI [Plugins Docs](/docs/bsh-engine/packaging/plugins).
+
+**Changed:**
+- Improved database connection management.
+- Synchronized TypeScript library with engine changes for better type safety.
+- Upgraded to Spring Boot 4.0.0 for improved performance and security.
+
+## 0.0.2 - 14 Dec 2025
+
+**Added:**
+ - Introduce the API Keys system.
+ - Add User Update.
+ - Implement Register.
+ - Introduce Engine Settings.
+ - Powered GET requests with search by query parameters.
+ - Add count endpoints to the API.
+ - Implement TS SDK for quick access to Engine APIs.
+
+**Changed:**
  - Update Pagination to be 1-based.
+ - Use new TS library in the dashboard to consume the Engine APIs.
+ - Improvements in the Dashboard UI/UX.
+ - Security improvements.
+ - Internal caching improvements.
+ - Fix bugs and improve performance.
 
-**Improvements:**
- - use new TS library in the dashboard to consume the Engine APIs
- - Improvements in the Dashboard UI/UX
- - Security improvements
- - Internal caching improvements
- - Fix bugs and improve performance
-
-## [0.0.1]
-**Released on: 2025-11-01**
-
-**Features:**
- - Authentication: Login, Forgot Password, Activate Account
- - Modeling: Entities, Types, Schemas
- - Security: Users, Roles, Policies
- - Files: Configurations, Load File
- - Mailing: Configurations, Email Templates, Send Email
- - Search module
- - Api Documentations
- 
+## 0.0.1 - 01 Nov 2025
+ - Authentication: Login, Forgot Password, Activate Account.
+ - Modeling: Entities, Types, Schemas.
+ - Security: Users, Roles, Policies.
+ - Files: Configurations, Load File.
+ - Mailing: Configurations, Email Templates, Send Email.
+ - Search module.
+ - Api Documentations.
