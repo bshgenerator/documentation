@@ -11,18 +11,25 @@ asIndexPage: true
 
 ## Installation
 
-Install the CLI globally:
-
-<Tabs items={['npm', 'npx']}>
-    <Tabs.Tab title="npm">
-```bash
-npm install -g @bshsolutions/cli
-```
+<Tabs items={['global', 'local', 'npx']}>
+    <Tabs.Tab title="global">
+    ```bash
+    npm install -g @bshsolutions/cli
+    # usage
+    bshg [options] [command]
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab title="local">
+    ```bash
+    npm install -D @bshsolutions/cli
+    # usage
+    npx bshg [options] [command]
+    ```
     </Tabs.Tab>
     <Tabs.Tab title="npx">
-```bash
-npx @bshsolutions/cli [options] [command]
-```
+    ```bash
+    npx @bshsolutions/cli [options] [command]
+    ```
     </Tabs.Tab>
 </Tabs>
 
