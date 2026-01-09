@@ -49,7 +49,7 @@ export default async function RootLayout({ children }) {
           banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/bshgenerator/documentation"
+          docsRepositoryBase="https://github.com/bsh-devsolutions/documentation"
           footer={footer}
           editLink={null}
           navigation={{
