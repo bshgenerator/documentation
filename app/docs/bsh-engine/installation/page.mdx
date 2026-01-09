@@ -15,7 +15,7 @@ import PostmanIcon from '../../../../tech-icons/PostmanIcon';
 ### Docker Compose File
 Create a new file called `docker-compose.yml` in the root of your project
 
-<Tabs items={['Without Database', 'With Database']}>
+<Tabs items={['Without Database', 'With Database', 'CLI']}>
     <Tabs.Tab title="Without Database">
 ```yaml filename="docker-compose.yml" {3}
 services:
@@ -67,6 +67,14 @@ volumes:
   engine-postgres-data:
 ```
     </Tabs.Tab>
+    <Tabs.Tab title="CLI">
+    This will generate the `docker-compose.yml` (including database) file and the `.env` file for you.
+    ```bash
+    bshg docker setup
+    # or
+    npx @bshsolutions/cli docker setup
+    ```
+    </Tabs.Tab>
 </Tabs>
 
 ### Environment Variables
@@ -84,8 +92,6 @@ BSH_FRONTEND_HOST=http://localhost:*
 
 BSH_ADMIN_USERNAME=admin@engine.com
 BSH_ADMIN_PASSWORD=password
-
-BSH_CORE_INSTALL=true # optional
 ```
 
 adjust the environment variables to your needs.
@@ -94,13 +100,6 @@ adjust the environment variables to your needs.
     - `BSH_FRONTEND_HOST` should be the same as the frontend host or any other host that you want to access the engine from.
     - `BSH_ADMIN_USERNAME` and `BSH_ADMIN_PASSWORD` are the credentials for the admin user. It will be created automatically when the engine starts.
 </Callout>
-
-> **❗`BSH_CORE_INSTALL`**
->
-> - `BSH_CORE_INSTALL` controls whether the core plugin and its initial configuration are installed when starting the engine.
-> - For first-time setup, set `BSH_CORE_INSTALL=true` (default). This creates core resources, including a default admin user and roles.
-> - **Important:** If you make manual changes to core configurations, set `BSH_CORE_INSTALL=false` *before* restarting the engine. This prevents your manual changes from being overwritten.
-
 
 ### Run the Engine
 
@@ -123,7 +122,7 @@ After the engine is running, you can fork the **BSH Engine** Postman collection 
 </Cards>
 
 <Callout type="info">
-    The collection is updated when the engine is updated.
+    The collection is updated whenever after each release.
 </Callout>
 
 </Steps>
