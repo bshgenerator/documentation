@@ -15,19 +15,35 @@ There is two ways to create a new plugin:
 
 ## Plugin Structure
 
-The BSH Engine plugin system uses three file types:
+The BSH Engine plugin system uses three essential file types that work together to define and install plugin components:
 
-1. **[Config file](/docs/bsh-engine/packaging/plugins/config-file)** - `bshplugin.json` - Root plugin configuration
-2. **[Manifest files](/docs/bsh-engine/packaging/plugins/manifest-files)** - `__manifest__.json` - Component directory manifest
-3. **[Content files](/docs/bsh-engine/packaging/plugins/content-files)** - `dir/**/*.json` - Content JSON files
+1. **[Config file](/docs/bsh-engine/packaging/plugins/config-file)** - `bshplugin.json`: 
+should be placed in the root of the plugin directory. it defines the plugin identity, metadata, and variables.
+2. **[Manifest files](/docs/bsh-engine/packaging/plugins/manifest-files)** - `__manifest__.json`: 
+located inside each component directory (e.g., `BshTypes/`, `BshSchemas/`, etc.). it defines the metadata, dependencies, and loading order of the content files.
+3. **[Content files](/docs/bsh-engine/packaging/plugins/content-files)** - `dir/**/*.json`:
+located anywhere within component directories (supports nested structure). it contains the actual data/definitions that get installed into target entities.
 
-Each file type serves a specific purpose in the plugin system:
-
-- **Config file**: Defines plugin identity, metadata, and variables
-- **Manifest files**: Defines component metadata, dependencies, and loading order
-- **Content files**: Contains data/definitions installed into target entities
-
-Learn more about each file type in their respective documentation pages.
+<FileTree>
+  <FileTree.Folder name="my-plugin" defaultOpen>
+    <FileTree.File name="bshplugin.json"/>
+    <FileTree.Folder name="BshEntities" defaultOpen>
+      <FileTree.File name="__manifest__.json" />
+      <FileTree.File name="user.json" />
+      <FileTree.File name="country.json" />
+    </FileTree.Folder>
+    <FileTree.Folder name="BshTypes" defaultOpen>
+      <FileTree.File name="__manifest__.json" />
+      <FileTree.File name="CountryCode.json" />
+      <FileTree.File name="Email.json" />
+    </FileTree.Folder>
+    <FileTree.Folder name="BshSchemas" defaultOpen>
+      <FileTree.File name="__manifest__.json" />
+      <FileTree.File name="UserSchema.json" />
+      <FileTree.File name="CountrySchema.json" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
 
 ## Plugin Installation
 
